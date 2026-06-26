@@ -2,11 +2,7 @@ import type { NextFunction, Request, Response } from 'express'
 
 import type { AuthUser } from './auth.types.ts'
 
-export function fakeAuthMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+export function fakeAuthMiddleware(req: Request, res: Response, next: NextFunction): void {
   const userId = req.header('x-dev-user-id')
   const userEmail = req.header('x-dev-user-email')
 

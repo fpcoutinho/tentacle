@@ -6,7 +6,7 @@ app.listen(PORT, () => {
   console.log(
     JSON.stringify({
       message: 'Server is running',
-      port: PORT,
-    }),
+      port: PORT
+    })
   )
 })

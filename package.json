@@ -7,7 +7,14 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint . --write",
+    "format": "biome format . --write",
+    "format:check": "biome format .",
+    "check": "npm run typecheck && biome check .",
+    "check:fix": "biome check . --write",
+    "ci": "npm run typecheck && biome ci ."
   },
   "repository": {
     "type": "git",
@@ -28,10 +35,10 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.1",
     "@types/pg": "^8.20.0",
-    "eslint": "^10.5.0",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
