@@ -1,5 +1,5 @@
 {
-  "name": "apistract",
+  "name": "tentacle",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,16 +18,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fpcoutinho/apistract.git"
+    "url": "git+https://github.com/fpcoutinho/tentacle.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/fpcoutinho/apistract/issues"
+    "url": "https://github.com/fpcoutinho/tentacle/issues"
   },
-  "homepage": "https://github.com/fpcoutinho/apistract#readme",
+  "homepage": "https://github.com/fpcoutinho/tentacle#readme",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
