@@ -1,12 +1,11 @@
 import { app } from './app.ts'
+import { env } from './config/env.ts'
 
-const PORT = 3000
-
-app.listen(PORT, () => {
+app.listen(env.PORT, () => {
   console.log(
     JSON.stringify({
       message: 'Server is running',
-      port: PORT
+      port: env.PORT
     })
   )
 })
