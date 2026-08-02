@@ -12,7 +12,11 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (error, _req, res, ne
   if (error instanceof APIError) {
     logger.warn({ err: error }, 'Request failed')
     res.status(error.statusCode).json({
-      error: { code: error.code, message: error.message }
+      error: {
+        code: error.code,
+        message: error.message,
+        ...(error.details !== undefined ? { details: error.details } : {})
+      }
     })
     return
   }
