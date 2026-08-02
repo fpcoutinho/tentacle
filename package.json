@@ -25,7 +25,7 @@
     "url": "git+https://github.com/fpcoutinho/tentacle.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Filipe Coutinho <fpcoutinho5@gmail.com>",
   "license": "ISC",
   "type": "module",
   "bugs": {
