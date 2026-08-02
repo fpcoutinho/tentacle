@@ -1,4 +1,4 @@
-import { createBaseDto } from '../../shared/http/base-dto.ts'
+import { createBaseDto } from '../../shared/validation/base-dto.ts'
 import type { TrailRow } from './get-trails.repository.ts'
 import { getTrailsSchema } from './get-trails.schema.ts'
 

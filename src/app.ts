@@ -5,7 +5,7 @@ import { logger } from './config/logger.ts'
 import { modulesRouter } from './modules/router.ts'
 import { authMiddleware } from './shared/auth/auth.middleware.ts'
 import { HTTP_STATUS } from './shared/constants.ts'
-import { errorHandlerMiddleware } from './shared/http/error-handler.middleware.ts'
+import { errorHandlerMiddleware } from './shared/error/error-handler.middleware.ts'
 
 export const app = express()
 

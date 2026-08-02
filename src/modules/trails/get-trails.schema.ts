@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { baseSchema } from '../../shared/http/base-schema.ts'
+import { baseSchema } from '../../shared/validation/base-schema.ts'
 
 export const getTrailsSchema = {
   ...baseSchema,
