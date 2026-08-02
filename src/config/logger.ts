@@ -11,7 +11,8 @@ const loggerOptions: LoggerOptions =
           options: {
             colorize: true,
             ignore: 'pid,hostname',
-            translateTime: 'SYS:standard'
+            translateTime: 'SYS:standard',
+            sync: true
           }
         }
       }
