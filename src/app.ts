@@ -1,12 +1,13 @@
 import express from 'express'
+import { pinoHttp } from 'pino-http'
 
+import { logger } from './config/logger.ts'
 import { authMiddleware } from './shared/auth/auth.middleware.ts'
 import { errorHandlerMiddleware } from './shared/http/error-handler.middleware.ts'
-import { requestLoggerMiddleware } from './shared/http/request-logger.middleware.ts'
 
 export const app = express()
 
-app.use(requestLoggerMiddleware)
+app.use(pinoHttp({ logger }))
 app.use(express.json())
 
 app.get('/health', (_req, res) => {
