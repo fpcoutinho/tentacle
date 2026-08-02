@@ -5,6 +5,7 @@
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
+  "js/ts.tsserver.experimental.enableProjectDiagnostics": false,
   "biome.enabled": true,
   "biome.requireConfiguration": true,
   "js/ts.preferences.preferTypeOnlyAutoImports": true
