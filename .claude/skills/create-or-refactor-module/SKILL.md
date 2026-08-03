@@ -7,6 +7,26 @@ description: Padrão de arquitetura de módulos do backend tentacle (Node/TS/Exp
 
 Padrão estabelecido ao construir `GET /api/v1/trails`. Siga-o para qualquer endpoint novo; se algo aqui não encaixar no caso concreto, diga isso explicitamente ao usuário em vez de improvisar em silêncio — o padrão é derivado de decisões discutidas, e divergir dele deve ser uma escolha consciente.
 
+## Modos de Ativação
+
+Antes de gerar código, identifique qual dos 3 modos abaixo se aplica ao pedido do usuário:
+
+### Modo 1: Criar um módulo novo do zero
+- Crie a pasta `src/modules/<novo-modulo>/`.
+- Crie o arquivo `<novo-modulo>.routes.ts` contendo a instância do `Router` e a rota inicial.
+- **Registre o novo módulo:** Adicione o `import` e o `modulesRouter.use('/<novo-modulo>', novoModuloRouter)` no arquivo `src/modules/router.ts`.
+
+### Modo 2: Adicionar feature (endpoint) em módulo existente
+- **NÃO crie um novo arquivo de rotas** e **NÃO altere `src/modules/router.ts`**.
+- Crie apenas os 5 arquivos do novo endpoint (`<verbo>-<recurso>.*`) dentro da pasta do módulo.
+- Faça um *append* no `<modulo>.routes.ts` existente: adicione o `import` da nova controller no topo e a nova chamada de rota (ex: `trailsRouter.post('/', createTrail)`) no final. Nunca sobrescreva as rotas existentes.
+
+### Modo 3: Refatorar feature existente para o padrão
+- Leia os arquivos atuais do endpoint.
+- Compare com os templates abaixo. Ajuste a nomenclatura de arquivos (se necessário), separe as camadas corretamente (SQL no repo, regras no service, mapeamento no dto, validação no schema).
+- Garanta que o arquivo `<modulo>.routes.ts` não perca nenhuma rota durante a refatoração.
+- Rode `npm run check:fix` ao final para garantir que os tipos e a formatação batem.
+
 ## Como usar
 
 - No modo automático, seja direto: não invente arquivos, não amplie escopo sem pedido e não crie testes, migrations, Swagger/OpenAPI ou auxiliares não solicitados.
