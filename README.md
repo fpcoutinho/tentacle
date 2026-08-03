@@ -55,6 +55,92 @@ flowchart LR
 	UI --> A
 ```
 
+## Estrutura do backend
+
+A API é organizada em módulos por domínio, com uma camada de rotas, controller, service e repository. O fluxo principal segue o padrão abaixo:
+
+```text
+src/
+  app.ts            # montagem do Express e middlewares globais
+  server.ts         # bootstrap da aplicação e shutdown
+  config/           # env, Firebase, logger
+  db/               # cliente do PostgreSQL, seed e migrações
+  modules/          # rotas e lógica por domínio
+    trails/         # endpoints de trilhas e missões
+    shop/           # endpoints da loja
+    user/           # endpoints de usuário
+  shared/           # autenticação, erros e validação reutilizáveis
+```
+
+Pontos-chave da implementação atual:
+
+- `app.ts` expõe o healthcheck em `/health` e monta a API em `/api/v1`.
+- `modules/router.ts` centraliza as rotas por domínio.
+- Cada módulo segue uma estrutura semelhante a `routes/controller/service/dto/schema/repository` para manter o código previsível.
+- `shared/auth` concentra a autenticação, com integração ao Firebase Admin.
+
+## Stack e ferramentas
+
+- Runtime: Node.js + TypeScript
+- Framework HTTP: Express
+- Validação: Zod
+- Banco: PostgreSQL com `pg`
+- Autenticação: Firebase Admin SDK
+- Observabilidade: `pino` e `pino-http`
+- Dev tooling: `tsx` para execução local, `Biome` para lint/format e `node-pg-migrate` para migrações
+- Infra: Docker Compose para o banco local
+
+## Como rodar localmente
+
+### 1) Instalar dependências
+
+```bash
+npm install
+```
+
+### 2) Subir o PostgreSQL
+
+```bash
+docker compose up -d db
+```
+
+### 3) Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz com as variáveis abaixo:
+
+```env
+PORT=3000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tentacle
+FIREBASE_PROJECT_ID=seu-project-id
+FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
+
+### 4) Rodar as migrações e popular o banco
+
+```bash
+npm run migrate:up
+npm run seed
+```
+
+### 5) Iniciar o servidor em modo desenvolvimento
+
+```bash
+npm run dev
+```
+
+A API ficará disponível em `http://localhost:3000`.
+
+## Comandos úteis
+
+```bash
+npm run build
+npm run typecheck
+npm run lint
+npm run check
+npm run ci
+```
+
 ## Leitura rápida do modelo
 
 - `users` guarda o perfil base e o saldo atual de conchas.
