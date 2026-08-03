@@ -192,9 +192,9 @@ export const service = {
 
 ```ts
 import type { Request, Response } from 'express'
-import { AuthenticatedRequest } from '../../shared/types.ts' // Use quando precisar de req.user
 
 import { HTTP_STATUS } from '../../shared/constants.ts'
+import { APIError } from '../../shared/error/api-error.ts'
 import { dto } from './get-trails.dto.ts'
 import { service } from './get-trails.service.ts'
 
@@ -218,10 +218,15 @@ export async function postUser(req: Request, res: Response): Promise<void> {
   res.status(HTTP_STATUS.CREATED).json(dto.response.body(result))
 }
 
-// POST que exige usuário logado
-export async function postUserSubmission(req: AuthenticatedRequest, res: Response): Promise<void> {
+// Endpoint que exige usuário logado: req.user vem de express.d.ts (shared/auth/express.d.ts),
+// sempre opcional no tipo mesmo atrás do authMiddleware — checagem inline, sem `!`.
+export async function postUserSubmission(req: Request, res: Response): Promise<void> {
+  if (!req.user) {
+    throw new APIError(HTTP_STATUS.UNAUTHORIZED, 'unauthorized', 'Missing authenticated user')
+  }
+
   const payload = dto.request.body(req.body)
-  const result = await service.execute(req.user.uid, payload)
+  const result = await service.execute(req.user.id, payload)
   res.status(HTTP_STATUS.CREATED).json(dto.response.body(result))
 }
 ```
@@ -277,7 +282,7 @@ Códigos padronizados: `validation_error`, `unauthorized`, `forbidden`, `not_fou
 - **Validar linhas do banco (quando vale).** Não faça por padrão. Vale quando há coluna nulável. Cenário: tipo escrito à mão diz `string`, banco devolve `null`, TypeScript não percebe. Use `z.object(...).parse(result.rows[0])` no repository.
 - **Endpoint com body precisa declarar o body.** `baseSchema.request.body` é `z.object({})` e o Zod remove chave não declarada. Um `POST` que chame `dto.request.body(req.body)` sem sobrescrever `body` no schema recebe `{}`, descartando o payload silenciosamente.
 - **`.strict()` é o default para body.** Se houver exceção, o motivo precisa ficar explícito.
-- **Autenticação não é do dto.** O `authMiddleware` roda em todas as rotas `/api/v1` e popula `req.user`. Use `AuthenticatedRequest` no controller quando precisar do UID.
+- **Autenticação não é do dto.** O `authMiddleware` roda em todas as rotas `/api/v1` e popula `req.user` — mas o tipo (`shared/auth/express.d.ts`) é sempre `AuthUser | undefined`, mesmo em rota autenticada, porque a augmentation vale pra qualquer `Request`. Quando o controller precisar do UID, checagem inline: `if (!req.user) throw new APIError(HTTP_STATUS.UNAUTHORIZED, 'unauthorized', '...')`. Não existe (e não crie) um tipo `AuthenticatedRequest` — seria uma promessa só de compilação sem checagem real, na mesma categoria do `pool.query<TrailRow>` que já discutimos.
 - **Transações manuais precisam fechar.** Se usar `pool.connect()`, o `client.release()` deve estar garantido em `finally`.
 - **Rotas hoje são todas autenticadas.** Se um endpoint precisar ser público, traga ao usuário em vez de inventar.
 
