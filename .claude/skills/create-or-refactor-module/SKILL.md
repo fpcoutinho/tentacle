@@ -27,8 +27,6 @@ src/modules/<módulo>/
 
 O nome do arquivo é **por endpoint** (`get-trails.*`, `get-trail-detail.*`, `post-user.*`), exceto `routes.ts`, que é **por módulo**. Motivo: vários endpoints convivem na mesma pasta sem um `service.ts` gigante compartilhado, mas criar um `Router` do Express por endpoint é o inverso do propósito do `Router` (ele existe pra *agrupar*).
 
-Endpoints com entrada simples (sem body/params/query) não precisam declarar todas as camadas de validação — ver "Só declare a camada que você usa".
-
 Endpoints de listagem devem considerar paginação por padrão (`limit`/`offset`), com teto razoável de 50 itens, caso o usuário peça. Caso ele não especifique, devolva tudo.
 
 ## Cadeia de chamada
@@ -42,7 +40,7 @@ routes → controller → service → repository
 Cada camada tem uma responsabilidade que não muda quando o módulo cresce:
 
 - **repository** — único lugar que sabe que existe SQL/Postgres. Devolve linhas cruas (snake_case).
-- **service** — regra de negócio. Sempre existe, mesmo quando hoje só repassa: quando a regra aparecer (cálculo de conchas, validação de saldo, transações), ela já tem lugar, e fica testável sem simular HTTP.
+- **service** — regra de negócio. Sempre existe, mesmo quando hoje só repassa: quando a regra aparecer, ela já tem lugar.
 - **dto** — mapeia snake_case→camelCase e valida contra o schema.
 - **controller** — traduz HTTP↔chamada de função. Não sabe SQL, não decide regra.
 - **schema** — Zod. Documenta o contrato público da API.
@@ -53,6 +51,7 @@ Cada camada tem uma responsabilidade que não muda quando o módulo cresce:
 
 ```ts
 import { pool } from '../../db/client.ts'
+import type { PoolClient } from 'pg'
 
 export type TrailRow = {
   id: number
@@ -68,15 +67,16 @@ export async function findAllTrails(): Promise<TrailRow[]> {
   )
   return result.rows
 }
+
+// Assinatura padrão para transações: cliente opcional no último argumento
+export async function createUser(data: UserInput, client: PoolClient | typeof pool = pool): Promise<UserRow> {
+  const result = await client.query<UserRow>(
+    'INSERT INTO users (email) VALUES ($1) RETURNING *',
+    [data.email]
+  )
+  return result.rows[0]
+}
 ```
-
-Liste as colunas explicitamente — `SELECT *` faria o retorno mudar silenciosamente quando alguém adicionasse uma coluna. Sem try/catch: erro de banco sobe para o `errorHandlerMiddleware`, que é quem sabe virar resposta HTTP.
-
-Se um service precisar orquestrar mais de uma operação no banco, aceite um client transacional opcional no repository e garanta `client.release()` em `finally` ao usar `pool.connect()`. O padrão com `pool` direto continua sendo o default.
-
-O generic `pool.query<TrailRow>` é uma **promessa em tempo de compilação**, não verificação. O TypeScript acredita sem checar. Ver "Validar linhas do banco" abaixo para quando isso importa.
-
-Colunas e constraints reais: `migrations/1785628418413_initial-schema.sql`.
 
 ### schema
 
@@ -84,6 +84,7 @@ Colunas e constraints reais: `migrations/1785628418413_initial-schema.sql`.
 import { z } from 'zod'
 import { baseSchema } from '../../shared/validation/base-schema.ts'
 
+// GET sem entrada de body
 export const schema = {
   response: {
     ...baseSchema.response,
@@ -100,18 +101,37 @@ export const schema = {
     })
   }
 }
-```
 
-Com entrada (`GET /trails/:slug`):
-
-```ts
+// GET com parâmetros de rota
 export const schema = {
   request: { ...baseSchema.request, params: z.object({ slug: z.string() }) },
   response: { ...baseSchema.response, body: z.object({ /* ... */ }) }
 }
-```
 
-Se o endpoint aceitar `body` e não precisar de chaves extras, prefira `.strict()` no objeto de request.
+// GET com Query Params de paginação (sempre use z.coerce para query)
+export const schema = {
+  request: {
+    ...baseSchema.request,
+    query: z.object({
+      limit: z.coerce.number().max(50).optional(),
+      offset: z.coerce.number().optional()
+    })
+  },
+  response: { ...baseSchema.response, body: z.object({ /* ... */ }) }
+}
+
+// POST com Body
+export const schema = {
+  request: {
+    ...baseSchema.request,
+    body: z.object({
+      name: z.string().min(3),
+      email: z.string().email()
+    }).strict()
+  },
+  response: { ...baseSchema.response, body: z.object({ /* ... */ }) }
+}
+```
 
 ### dto
 
@@ -137,8 +157,6 @@ export const dto = {
 }
 ```
 
-Validação de entrada vive no controller. Validação de saída vive no DTO quando fizer sentido. Não use `.transform()` como substituto do contrato da response.
-
 ### service
 
 ```ts
@@ -153,30 +171,39 @@ export const service = {
 
 ```ts
 import type { Request, Response } from 'express'
+import { AuthenticatedRequest } from '../../shared/types.ts' // Use quando precisar de req.user
 
 import { HTTP_STATUS } from '../../shared/constants.ts'
 import { dto } from './get-trails.dto.ts'
 import { service } from './get-trails.service.ts'
 
+// GET simples
 export async function getTrails(_req: Request, res: Response): Promise<void> {
   const result = await service.execute()
-
   res.status(HTTP_STATUS.OK).json(dto.response.body(result))
 }
-```
 
-Com entrada:
-
-```ts
-export async function getTrailDetail(req: Request, res: Response): Promise<void> {
-  const params = dto.request.params(req.params)   // tipado: { slug: string }
+// GET com parâmetros tipados
+export async function getUserProfile(req: Request, res: Response): Promise<void> {
+  const params = dto.request.params(req.params)
   const result = await service.execute(params.slug)
-
   res.status(HTTP_STATUS.OK).json(dto.response.body(result))
 }
-```
 
-Sem try/catch: Express 5 encaminha rejeição de handler `async` automaticamente para o error handler.
+// POST com body validado
+export async function postUser(req: Request, res: Response): Promise<void> {
+  const payload = dto.request.body(req.body)
+  const result = await service.execute(payload)
+  res.status(HTTP_STATUS.CREATED).json(dto.response.body(result))
+}
+
+// POST que exige usuário logado
+export async function postUserSubmission(req: AuthenticatedRequest, res: Response): Promise<void> {
+  const payload = dto.request.body(req.body)
+  const result = await service.execute(req.user.uid, payload)
+  res.status(HTTP_STATUS.CREATED).json(dto.response.body(result))
+}
+```
 
 ### routes (por módulo)
 
@@ -199,99 +226,51 @@ modulesRouter.use('/trails', trailsRouter)
 
 ## Convenções
 
-**Exports:** `schema`, `dto`, `service` — minúsculos, sem prefixo do endpoint. O nome do arquivo já dá o contexto (`import { dto } from './get-trails.dto.ts'`). Minúsculo porque PascalCase em JS/TS sinaliza classe ou tipo, e estes são objetos planos. Controller exporta função nomeada (`getTrails`); repository exporta funções + tipos de linha.
+**Exports:** `schema`, `dto`, `service` — minúsculos, sem prefixo do endpoint. O nome do arquivo já dá o contexto. Controller exporta função nomeada (`getTrails`); repository exporta funções + tipos de linha.
 
-**Sem barrel files** (`index.ts` agregador). Tentativa anterior de encurtar imports com alias (`#shared/http`) exigia `imports` condicional no `package.json` + `--conditions` no `tsx` + `customConditions` no `tsconfig`, e falhava silenciosamente em produção (funcionava com `tsx`, quebrava com `tsc` compilado). Imports relativos diretos.
+**Sem barrel files** (`index.ts` agregador). Imports relativos diretos.
 
 **Nomes em inglês** para identificadores, tabelas e colunas. Conteúdo (texto das missões) continua em português.
 
 **Sem número mágico de status** — use `HTTP_STATUS` de `shared/constants.ts`.
 
-**Biome:** aspas simples, sem ponto e vírgula, indent 2 espaços, largura 100, sem trailing comma. Rode `npm run check:fix` — arquivo novo costuma nascer com CRLF neste ambiente Windows e o Biome normaliza.
+**Biome:** aspas simples, sem ponto e vírgula, indent 2 espaços, largura 100, sem trailing comma. Rode `npm run check:fix`.
 
 ## Erros
 
-- **Erro esperado** (404, 409, 400 de negócio): `throw new APIError(HTTP_STATUS.NOT_FOUND, 'not_found', 'Mission not found')`. Opcionalmente um 4º argumento `details`.
-- **ZodError**: virar 400 `validation_error` é automático — o `errorHandlerMiddleware` já trata.
-- **Qualquer outro erro**: vira 500 genérico, com stack no log e mensagem neutra pro cliente (nunca vaza detalhe interno).
+- **Erro esperado** (404, 409, 400 de negócio): `throw new APIError(HTTP_STATUS.NOT_FOUND, 'not_found', 'Mission not found')`.
+- **ZodError**: virar 400 `validation_error` é automático.
+- **Qualquer outro erro**: vira 500 genérico, com stack no log e mensagem neutra pro cliente.
 
 Códigos padronizados: `validation_error`, `unauthorized`, `forbidden`, `not_found`, `conflict`, `internal_error`.
 
-## Decisões e porquês
+## Regras de Ouro e Armadilhas
 
-### Só declare a camada que você usa
-
-`get-trails` não declara `request` — o endpoint não valida entrada, então a chave não existe no objeto. Se algum controller tentar `dto.request.params(...)`, o TypeScript erra **em tempo de compilação**.
-
-O oposto (espalhar `...baseSchema` no topo pra sempre ter as 4 camadas) faria `dto.request.query(req.query)` compilar e devolver `{}` silenciosamente num endpoint que nunca declarou `query`. Você *acharia* que validou. Esse silêncio é o mesmo problema que o padrão existe pra eliminar.
-
-Se a entrada for simples, não crie camadas artificiais só para completar o formato do objeto.
-
-### Response: mapear em JS → parsear (não `.transform()`)
-
-Dois motivos:
-
-1. `.transform()` roda **depois** do parse, então o schema descreveria a *entrada* do transform — o formato do banco — em vez do contrato da API. O `schema.ts` deve responder "o que essa API devolve?" sem precisar ler dto/service/repository.
-2. O `.map()` é tipado contra o tipo de linha do repository. Se a query mudar e `short_title` sumir do `TrailRow`, o mapeamento vira erro de compilação. Com `.transform()`, o tipo de entrada viria de um schema Zod declarado à parte — uma segunda declaração do mesmo formato, livre pra divergir sem ninguém notar.
-
-`.transform()` **é** a ferramenta certa do lado do **request**, onde o schema legitimamente descreve o dado cru que chega (query string é sempre texto) e o transform converte pro que o service espera.
-
-Contraste útil: num BFF, o dado vem de um backend que você não controla, então a fronteira crítica é a entrada e faz sentido o schema descrever o upstream. Aqui o banco é nosso (migrations no mesmo repo) e a fronteira crítica é a **saída**, que os clientes consomem.
-
-`.transform()` só faz sentido quando o schema descreve a entrada crua da request, não quando a intenção é modelar o contrato público da response.
-
-### Validação vive no controller, não em middleware de rota
-
-`dto.request.*(...)` na entrada, `dto.response.body(...)` na saída. Um middleware de validação separado existiu e foi removido: ele duplicava o caminho de erro e forçava o controller a não usar o valor validado.
-
-### Validar linhas do banco (quando vale)
-
-**Não faça por padrão.** Para uma query cujas colunas são todas `NOT NULL`, um `.parse()` no repository não pega nada que possa realisticamente acontecer — renome de coluna já estoura no Postgres, e mudança de tipo exigiria migration deliberada.
-
-**Vale quando há coluna nulável** (`missions.emblem`, `missions.summary`/`bibliography`/`faqs`, `users.gender`). Cenário concreto: o tipo escrito à mão diz `string`, o banco devolve `null`, o TypeScript não percebe (o generic é só promessa), e o `null` viaja até estourar longe da origem. Nesse caso:
-
-```ts
-const missionRowSchema = z.object({ emblem: z.string().nullable(), /* ... */ })
-export type MissionRow = z.infer<typeof missionRowSchema>
-
-export async function findMission(slug: string): Promise<MissionRow> {
-  const result = await pool.query('SELECT ... WHERE slug = $1', [slug])
-  return missionRowSchema.parse(result.rows[0])
-}
-```
-
-Declarar o schema **sem** parsear não protege nada — é só outra forma de escrever o tipo. O ganho vem do `.parse()`.
-
-Se uma listagem ficar grande, trate paginação de forma explícita em vez de devolver tudo por padrão.
-
-## Armadilhas
-
-**Endpoint com body precisa declarar o body.** `baseSchema.request.body` é `z.object({})` e o Zod remove chave não declarada — um `POST` que chame `dto.request.body(req.body)` sem sobrescrever `body` no schema recebe `{}`, descartando o payload silenciosamente.
-
-**`.strict()` é o default para body quando não houver motivo para aceitar chaves extras.** Se houver exceção, o motivo precisa ficar explícito.
-
-**Autenticação não é responsabilidade do dto.** O `authMiddleware` roda em todas as rotas `/api/v1` e popula `req.user`. Colocar um header obrigatório em `baseSchema.request.headers` só teria efeito onde algum controller chamasse `dto.request.headers(...)` — garantia global pertence ao middleware.
-
-**Transações manuais precisam fechar a conexão.** Se usar `pool.connect()`, o `client.release()` deve estar garantido em `finally`.
-
-**Uma decisão que ainda não foi tomada:** rotas hoje são todas autenticadas (não existe separação público/privado). Se um endpoint precisar ser público, isso é uma decisão nova — traga ao usuário em vez de inventar.
+- **Sempre crie os 5 arquivos.** No entanto, em `schema.ts` e `dto.ts`, só adicione as chaves (`request`, `response`, `body`, `params`, `query`) que forem estritamente usadas por aquele endpoint. O oposto (espalhar `...baseSchema` no topo pra sempre ter as 4 camadas) faria `dto.request.query(req.query)` compilar e devolver `{}` silenciosamente num endpoint que nunca declarou `query`.
+- **Response: mapear em JS → parsear (não `.transform()`).** O `.map()` é tipado contra o tipo de linha do repository. Se a query mudar, vira erro de compilação. `.transform()` no schema de response faria o schema descrever o formato do banco, e não o contrato da API. `.transform()` **só** faz sentido no lado do **request** (ex: converter query string).
+- **Validação vive no controller, não em middleware.** `dto.request.*(...)` na entrada, `dto.response.body(...)` na saída.
+- **Validar linhas do banco (quando vale).** Não faça por padrão. Vale quando há coluna nulável. Cenário: tipo escrito à mão diz `string`, banco devolve `null`, TypeScript não percebe. Use `z.object(...).parse(result.rows[0])` no repository.
+- **Endpoint com body precisa declarar o body.** `baseSchema.request.body` é `z.object({})` e o Zod remove chave não declarada. Um `POST` que chame `dto.request.body(req.body)` sem sobrescrever `body` no schema recebe `{}`, descartando o payload silenciosamente.
+- **`.strict()` é o default para body.** Se houver exceção, o motivo precisa ficar explícito.
+- **Autenticação não é do dto.** O `authMiddleware` roda em todas as rotas `/api/v1` e popula `req.user`. Use `AuthenticatedRequest` no controller quando precisar do UID.
+- **Transações manuais precisam fechar.** Se usar `pool.connect()`, o `client.release()` deve estar garantido em `finally`.
+- **Rotas hoje são todas autenticadas.** Se um endpoint precisar ser público, traga ao usuário em vez de inventar.
 
 ## Verificação
 
 1. `npm run check` (typecheck + Biome). Se acusar formatação, `npm run check:fix`.
 2. Subir e chamar de verdade:
    ```bash
-   npm run dev
+   npm run dev &
    ```
    Token real do Firebase: `npx tsx plan/get-test-token.mts` (a auth é Firebase; o header `x-dev-user-id` não vale mais). Depois:
    ```bash
    curl.exe -H "Authorization: Bearer <token>" http://localhost:3000/api/v1/<rota>
    ```
 3. Confirmar o caminho de erro, não só o feliz — quebre o mapeamento de propósito (ex.: trocar um número por string no dto) e confirme **400** `validation_error` com `details` apontando o campo. Reverter depois.
-
-Cuidado com processo zumbi: se a porta 3000 estiver ocupada por um `tsx watch` de teste anterior, requisições vão pro processo velho e o resultado engana. Antes de testar:
-```powershell
-Get-NetTCPConnection -State Listen -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
-```
+4. Mate o processo do servidor após os testes para evitar zumbis:
+   ```powershell
+   Get-NetTCPConnection -State Listen -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+   ```
 
 Scripts de teste descartáveis vão em `plan/` (já no `.gitignore`), não na raiz.
