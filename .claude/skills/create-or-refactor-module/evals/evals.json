@@ -1,0 +1,55 @@
+[
+  {
+    "skills": ["create-or-refactor-module"],
+    "query": "preciso começar um módulo novo, shop, pra expor endpoints da loja pro app. ainda não fechei quais features nem as rotas, nem a regra de cálculo de desconto — me ajuda a montar a estrutura do módulo?",
+    "files": [],
+    "expected_behavior": [
+      "Identifica o Modo 1 e cria a pasta src/modules/shop/",
+      "Reconhece que rota/método, contrato e regra de negócio estão faltando e PERGUNTA em vez de inventar",
+      "Cria os 5 arquivos do primeiro endpoint (<verbo>-<recurso>.*.ts)",
+      "Cria o arquivo shop.routes.ts contendo a instância do Router()",
+      "Menciona o registro do módulo em src/modules/router.ts (modulesRouter.use('/shop', shopRouter))",
+      "NÃO usa try/catch no controller e NÃO usa números mágicos para status HTTP"
+    ]
+  },
+  {
+    "skills": ["create-or-refactor-module"],
+    "query": "adiciona a feature get-trails no módulo trails. é um GET /trails que lista todas as trilhas no banco e devolve os dados. não precisa de body nem query.",
+    "files": [],
+    "expected_behavior": [
+      "Identifica o Modo 2. Cria os 5 arquivos explícitos (get-trails.repository.ts, get-trails.schema.ts, get-trails.dto.ts, get-trails.service.ts, get-trails.controller.ts) em src/modules/trails/",
+      "NÃO sobrescreve trails.routes.ts; faz append do import e da rota trailsRouter.get('/', getTrails)",
+      "NÃO altera src/modules/router.ts (módulo já existe)",
+      "Schema declara apenas a chave response (omite request/body/params)",
+      "Controller usa res.status(HTTP_STATUS.OK).json(dto.response.body(result))",
+      "Repository lista colunas explicitamente no SELECT (não usa SELECT *)",
+      "DTO mapeia snake_case (ex: order_index) para camelCase (ex: orderIndex) via .map() e depois usa schema.response.body.parse()"
+    ]
+  },
+  {
+    "skills": ["create-or-refactor-module"],
+    "query": "adiciona o POST /user/inventory no módulo user. recebe o itemId no body, valida se o usuário tem saldo suficiente (shell_balance), debita o saldo, grava no shell_ledger e insere no user_inventory. Tudo numa transação.",
+    "files": [],
+    "expected_behavior": [
+      "Identifica o Modo 2. Cria os 5 arquivos explícitos (post-user-inventory.*) em src/modules/user/",
+      "Controller usa AuthenticatedRequest, extrai req.user.uid e valida body com .strict()",
+      "Service contém a regra de negócio e lança throw new APIError(HTTP_STATUS.CONFLICT, 'conflict', 'Insufficient balance') se não tiver saldo",
+      "Service abre a transação com const client = await pool.connect() e garante client.release() em um bloco finally",
+      "Repository aceita o cliente transacional: função com assinatura (data, client: PoolClient | typeof pool = pool)",
+      "Faz append em user.routes.ts com userRouter.post('/inventory', postUserInventory)"
+    ]
+  },
+  {
+    "skills": ["create-or-refactor-module"],
+    "query": "refatora o GET /api/v1/shop/items. ele já tem os 5 arquivos no módulo shop, mas a query SQL está jogada no controller, o mapeamento snake_case para camelCase está no service (usando .transform()), e o schema de resposta não é usado. passa pro padrão do repo.",
+    "files": [],
+    "expected_behavior": [
+      "Identifica o Modo 3. NÃO cria arquivos novos, apenas edita os 5 existentes (get-shop-items.*)",
+      "Query SQL movida do Controller para o get-shop-items.repository.ts",
+      "Mapeamento snake_case → camelCase movido do Service para o get-shop-items.dto.ts usando .map() e schema.response.body.parse()",
+      "Controller não tem SQL nem mapeamento; apenas chama service e retorna HTTP_STATUS.OK com dto.response.body(result)",
+      "NÃO usa `.transform()` no schema de response",
+      "Roda ou sugere fortemente rodar 'npm run check:fix' ao final para garantir tipos e formatação"
+    ]
+  }
+]

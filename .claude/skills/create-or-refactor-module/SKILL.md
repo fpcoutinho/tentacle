@@ -1,6 +1,6 @@
 ---
 name: create-or-refactor-module
-description: Padrão de arquitetura de módulos do backend tentacle (Node/TS/Express/pg sem ORM, Zod, Biome). Use SEMPRE que for criar um endpoint novo, criar um módulo novo, ou refatorar um módulo existente neste repo — inclusive quando o pedido não usar a palavra "módulo", como em "cria o endpoint de perfil do usuário", "faz o GET de missões", "adiciona a rota de compra na loja", "precisa de um POST pra submeter resposta". Contém os templates exatos de cada camada (routes/controller/service/dto/schema/repository), as convenções de nome e export, e o porquê de cada decisão — evita ter que reler o repositório pra reconstruir o padrão.
+description: Cria ou refatora módulos e endpoints no backend tentacle (Node/TS/Express/pg sem ORM, Zod). Use SEMPRE que for criar um endpoint novo, criar um módulo novo, ou refatorar um módulo existente — inclusive em pedidos como "cria o endpoint de perfil", "faz o GET de missões", "adiciona rota de compra", "precisa de um POST pra submeter".
 ---
 
 # Módulos do tentacle
