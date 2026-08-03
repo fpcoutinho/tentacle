@@ -10,6 +10,7 @@ Padrão estabelecido ao construir `GET /api/v1/trails`. Siga-o para qualquer end
 ## Como usar
 
 - No modo automático, seja direto: não invente arquivos, não amplie escopo sem pedido e não crie testes, migrations, Swagger/OpenAPI ou auxiliares não solicitados.
+- **NUNCA sobrescreva arquivos compartilhados.** Ao adicionar um novo endpoint a um módulo existente, o `<módulo>.routes.ts` já existe. Faça um *append* do novo import e da nova chamada de rota ao arquivo existente. Não recrie o arquivo do zero.
 - Se houver incerteza real sobre regra de negócio, contrato ou tabela, pare e avise o usuário em vez de improvisar.
 - O comentário com caminho de arquivo no topo de blocos de código é opcional e serve só como auxílio no modo plan; não é exigência do modo automático.
 
@@ -218,11 +219,15 @@ trailsRouter.get('/', getTrails)
 trailsRouter.get('/:slug', getTrailDetail)
 ```
 
+**Atenção:** Este arquivo é acumulativo. Se estiver criando um novo endpoint num módulo que já existe, **não sobrescreva este arquivo**. Apenas adicione o `import` da nova controller no topo e a nova rota (ex: `trailsRouter.post('/', createTrail)`) no final.
+
 E registre em `src/modules/router.ts`:
 
 ```ts
 modulesRouter.use('/trails', trailsRouter)
 ```
+
+*(Se o módulo for totalmente novo, crie o `router.ts` e adicione o `use` aqui. Se o módulo já existir, o `router.ts` não precisa ser tocado).*
 
 ## Convenções
 
