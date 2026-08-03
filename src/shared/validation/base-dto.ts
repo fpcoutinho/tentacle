@@ -1,15 +1,14 @@
-import type { z } from 'zod'
+import { baseSchema } from './base-schema.ts'
 
-export function createBaseDto<Req extends z.ZodTypeAny, Res extends z.ZodTypeAny>(schema: {
-  request: Req
-  response: Res
-}) {
-  return {
-    request: {
-      parse: (input: unknown): z.infer<Req> => schema.request.parse(input)
-    },
-    response: {
-      parse: (input: unknown): z.infer<Res> => schema.response.parse(input)
-    }
+export const baseDto = {
+  request: {
+    headers: (input: unknown = {}) => baseSchema.request.headers.parse(input),
+    params: (input: unknown = {}) => baseSchema.request.params.parse(input),
+    query: (input: unknown = {}) => baseSchema.request.query.parse(input),
+    body: (input: unknown = {}) => baseSchema.request.body.parse(input)
+  },
+  response: {
+    headers: (input: unknown = {}) => baseSchema.response.headers.parse(input),
+    body: (input: unknown = {}) => baseSchema.response.body.parse(input)
   }
 }

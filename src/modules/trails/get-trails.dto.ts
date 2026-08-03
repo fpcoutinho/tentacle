@@ -1,26 +1,19 @@
-import { createBaseDto } from '../../shared/validation/base-dto.ts'
+import { baseDto } from '../../shared/validation/base-dto.ts'
 import type { TrailRow } from './get-trails.repository.ts'
-import { getTrailsSchema } from './get-trails.schema.ts'
+import { schema } from './get-trails.schema.ts'
 
-const baseDto = createBaseDto(getTrailsSchema)
-
-export const getTrailsDto = {
-  ...baseDto,
+export const dto = {
   response: {
-    parse: (trails: TrailRow[]) => {
-      const { body } = baseDto.response.parse({
-        body: {
-          trails: trails.map((trail) => ({
-            id: trail.id,
-            slug: trail.slug,
-            title: trail.title,
-            shortTitle: trail.short_title,
-            orderIndex: trail.order_index
-          }))
-        }
+    ...baseDto.response,
+    body: (trails: TrailRow[]) =>
+      schema.response.body.parse({
+        trails: trails.map((trail) => ({
+          id: trail.id,
+          slug: trail.slug,
+          title: trail.title,
+          shortTitle: trail.short_title,
+          orderIndex: trail.order_index
+        }))
       })
-
-      return body
-    }
   }
 }

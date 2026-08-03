@@ -1,9 +1,9 @@
 import { z } from 'zod'
 import { baseSchema } from '../../shared/validation/base-schema.ts'
 
-export const getTrailsSchema = {
-  ...baseSchema,
-  response: baseSchema.response.extend({
+export const schema = {
+  response: {
+    ...baseSchema.response,
     body: z.object({
       trails: z.array(
         z.object({
@@ -15,5 +15,5 @@ export const getTrailsSchema = {
         })
       )
     })
-  })
+  }
 }

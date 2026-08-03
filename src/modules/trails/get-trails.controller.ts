@@ -1,19 +1,11 @@
 import type { Request, Response } from 'express'
 
 import { HTTP_STATUS } from '../../shared/constants.ts'
-import { getTrailsDto } from './get-trails.dto.ts'
-import { getTrailsService } from './get-trails.service.ts'
+import { dto } from './get-trails.dto.ts'
+import { service } from './get-trails.service.ts'
 
-export async function getTrails(req: Request, res: Response): Promise<void> {
-  getTrailsDto.request.parse({
-    headers: req.headers,
-    params: req.params,
-    query: req.query,
-    body: req.body
-  })
+export async function getTrails(_req: Request, res: Response): Promise<void> {
+  const result = await service.execute()
 
-  const result = await getTrailsService.execute()
-  const body = getTrailsDto.response.parse(result)
-
-  res.status(HTTP_STATUS.OK).json(body)
+  res.status(HTTP_STATUS.OK).json(dto.response.body(result))
 }

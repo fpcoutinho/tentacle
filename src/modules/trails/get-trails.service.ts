@@ -1,5 +1,5 @@
 import { findAllTrails, type TrailRow } from './get-trails.repository.ts'
 
-export const getTrailsService = {
+export const service = {
   execute: async (): Promise<TrailRow[]> => findAllTrails()
 }
