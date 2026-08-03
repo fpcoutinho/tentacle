@@ -7,6 +7,12 @@ description: Padrão de arquitetura de módulos do backend tentacle (Node/TS/Exp
 
 Padrão estabelecido ao construir `GET /api/v1/trails`. Siga-o para qualquer endpoint novo; se algo aqui não encaixar no caso concreto, diga isso explicitamente ao usuário em vez de improvisar em silêncio — o padrão é derivado de decisões discutidas, e divergir dele deve ser uma escolha consciente.
 
+## Como usar
+
+- No modo automático, seja direto: não invente arquivos, não amplie escopo sem pedido e não crie testes, migrations, Swagger/OpenAPI ou auxiliares não solicitados.
+- Se houver incerteza real sobre regra de negócio, contrato ou tabela, pare e avise o usuário em vez de improvisar.
+- O comentário com caminho de arquivo no topo de blocos de código é opcional e serve só como auxílio no modo plan; não é exigência do modo automático.
+
 ## Estrutura de arquivos
 
 ```
@@ -23,6 +29,8 @@ O nome do arquivo é **por endpoint** (`get-trails.*`, `get-trail-detail.*`, `po
 
 Endpoints com entrada simples (sem body/params/query) não precisam declarar todas as camadas de validação — ver "Só declare a camada que você usa".
 
+Endpoints de listagem devem considerar paginação por padrão (`limit`/`offset`), com teto razoável de 50 itens, caso o usuário peça. Caso ele não especifique, devolva tudo.
+
 ## Cadeia de chamada
 
 ```
@@ -34,7 +42,7 @@ routes → controller → service → repository
 Cada camada tem uma responsabilidade que não muda quando o módulo cresce:
 
 - **repository** — único lugar que sabe que existe SQL/Postgres. Devolve linhas cruas (snake_case).
-- **service** — regra de negócio. Sempre existe, mesmo quando hoje só repassa: quando a regra aparecer (cálculo de conchas, validação de saldo), ela já tem lugar, e fica testável sem simular HTTP.
+- **service** — regra de negócio. Sempre existe, mesmo quando hoje só repassa: quando a regra aparecer (cálculo de conchas, validação de saldo, transações), ela já tem lugar, e fica testável sem simular HTTP.
 - **dto** — mapeia snake_case→camelCase e valida contra o schema.
 - **controller** — traduz HTTP↔chamada de função. Não sabe SQL, não decide regra.
 - **schema** — Zod. Documenta o contrato público da API.
@@ -63,6 +71,8 @@ export async function findAllTrails(): Promise<TrailRow[]> {
 ```
 
 Liste as colunas explicitamente — `SELECT *` faria o retorno mudar silenciosamente quando alguém adicionasse uma coluna. Sem try/catch: erro de banco sobe para o `errorHandlerMiddleware`, que é quem sabe virar resposta HTTP.
+
+Se um service precisar orquestrar mais de uma operação no banco, aceite um client transacional opcional no repository e garanta `client.release()` em `finally` ao usar `pool.connect()`. O padrão com `pool` direto continua sendo o default.
 
 O generic `pool.query<TrailRow>` é uma **promessa em tempo de compilação**, não verificação. O TypeScript acredita sem checar. Ver "Validar linhas do banco" abaixo para quando isso importa.
 
@@ -101,6 +111,8 @@ export const schema = {
 }
 ```
 
+Se o endpoint aceitar `body` e não precisar de chaves extras, prefira `.strict()` no objeto de request.
+
 ### dto
 
 ```ts
@@ -124,6 +136,8 @@ export const dto = {
   }
 }
 ```
+
+Validação de entrada vive no controller. Validação de saída vive no DTO quando fizer sentido. Não use `.transform()` como substituto do contrato da response.
 
 ### service
 
@@ -211,6 +225,8 @@ Códigos padronizados: `validation_error`, `unauthorized`, `forbidden`, `not_fou
 
 O oposto (espalhar `...baseSchema` no topo pra sempre ter as 4 camadas) faria `dto.request.query(req.query)` compilar e devolver `{}` silenciosamente num endpoint que nunca declarou `query`. Você *acharia* que validou. Esse silêncio é o mesmo problema que o padrão existe pra eliminar.
 
+Se a entrada for simples, não crie camadas artificiais só para completar o formato do objeto.
+
 ### Response: mapear em JS → parsear (não `.transform()`)
 
 Dois motivos:
@@ -221,6 +237,8 @@ Dois motivos:
 `.transform()` **é** a ferramenta certa do lado do **request**, onde o schema legitimamente descreve o dado cru que chega (query string é sempre texto) e o transform converte pro que o service espera.
 
 Contraste útil: num BFF, o dado vem de um backend que você não controla, então a fronteira crítica é a entrada e faz sentido o schema descrever o upstream. Aqui o banco é nosso (migrations no mesmo repo) e a fronteira crítica é a **saída**, que os clientes consomem.
+
+`.transform()` só faz sentido quando o schema descreve a entrada crua da request, não quando a intenção é modelar o contrato público da response.
 
 ### Validação vive no controller, não em middleware de rota
 
@@ -244,11 +262,17 @@ export async function findMission(slug: string): Promise<MissionRow> {
 
 Declarar o schema **sem** parsear não protege nada — é só outra forma de escrever o tipo. O ganho vem do `.parse()`.
 
+Se uma listagem ficar grande, trate paginação de forma explícita em vez de devolver tudo por padrão.
+
 ## Armadilhas
 
 **Endpoint com body precisa declarar o body.** `baseSchema.request.body` é `z.object({})` e o Zod remove chave não declarada — um `POST` que chame `dto.request.body(req.body)` sem sobrescrever `body` no schema recebe `{}`, descartando o payload silenciosamente.
 
+**`.strict()` é o default para body quando não houver motivo para aceitar chaves extras.** Se houver exceção, o motivo precisa ficar explícito.
+
 **Autenticação não é responsabilidade do dto.** O `authMiddleware` roda em todas as rotas `/api/v1` e popula `req.user`. Colocar um header obrigatório em `baseSchema.request.headers` só teria efeito onde algum controller chamasse `dto.request.headers(...)` — garantia global pertence ao middleware.
+
+**Transações manuais precisam fechar a conexão.** Se usar `pool.connect()`, o `client.release()` deve estar garantido em `finally`.
 
 **Uma decisão que ainda não foi tomada:** rotas hoje são todas autenticadas (não existe separação público/privado). Se um endpoint precisar ser público, isso é uma decisão nova — traga ao usuário em vez de inventar.
 
