@@ -18,13 +18,14 @@ Antes de gerar código, identifique qual dos 3 modos abaixo se aplica ao pedido 
 
 ### Modo 2: Adicionar feature (endpoint) em módulo existente
 - **NÃO crie um novo arquivo de rotas** e **NÃO altere `src/modules/router.ts`**.
-- Crie apenas os 5 arquivos do novo endpoint (`<verbo>-<recurso>.*`) dentro da pasta do módulo.
+- Crie a subpasta `src/modules/<módulo>/<verbo>-<recurso>/` e dentro dela os 5 arquivos do novo endpoint (`<verbo>-<recurso>.*`). Cada endpoint tem sua própria pasta — não crie arquivos soltos na raiz do módulo.
 - Faça um *append* no `<modulo>.routes.ts` existente: adicione o `import` da nova controller no topo e a nova chamada de rota (ex: `trailsRouter.post('/', createTrail)`) no final. Nunca sobrescreva as rotas existentes.
 
 ### Modo 3: Refatorar feature existente para o padrão
 - Leia os arquivos atuais do endpoint.
-- Compare com os templates abaixo. Ajuste a nomenclatura de arquivos (se necessário), separe as camadas corretamente (SQL no repo, regras no service, mapeamento no dto, validação no schema).
-- Garanta que o arquivo `<modulo>.routes.ts` não perca nenhuma rota durante a refatoração.
+- Compare com os templates abaixo. Ajuste a nomenclatura de arquivos (se necessário), separe as camadas corretamente (SQL no repo, regras no service, mapeamento no dto, validação no schema), e garanta que o endpoint viva em sua própria subpasta (`src/modules/<módulo>/<verbo>-<recurso>/`) — se ainda estiver solto na raiz do módulo, mova para a subpasta.
+- Ao mover arquivo de endpoint para dentro de uma subpasta, ajuste a profundidade dos imports relativos: um `../../` que apontava pra `shared/`, `db/` etc. a partir da raiz do módulo vira `../../../` a partir da subpasta; imports pra `helpers.ts`/`constants.ts` (que ficam na raiz do módulo) viram `../helpers.ts`; imports pra outro endpoint do mesmo módulo viram `../<outro-endpoint>/<outro-endpoint>.repository.ts`.
+- Garanta que o arquivo `<modulo>.routes.ts` não perca nenhuma rota durante a refatoração, e que seus imports apontem para o novo caminho com subpasta.
 - Rode `npm run check:fix` ao final para garantir que os tipos e a formatação batem.
 
 ## Como usar
@@ -38,15 +39,20 @@ Antes de gerar código, identifique qual dos 3 modos abaixo se aplica ao pedido 
 
 ```
 src/modules/<módulo>/
-  <módulo>.routes.ts            # UM por módulo — agrega todos os endpoints
-  <verbo>-<recurso>.repository.ts
-  <verbo>-<recurso>.schema.ts
-  <verbo>-<recurso>.dto.ts
-  <verbo>-<recurso>.service.ts
-  <verbo>-<recurso>.controller.ts
+  <módulo>.routes.ts               # UM por módulo — agrega todos os endpoints
+  helpers.ts                       # opcional, na raiz — compartilhado entre endpoints do módulo
+  constants.ts                     # opcional, na raiz — idem
+  <verbo>-<recurso>/               # UMA pasta por endpoint
+    <verbo>-<recurso>.repository.ts
+    <verbo>-<recurso>.schema.ts
+    <verbo>-<recurso>.dto.ts
+    <verbo>-<recurso>.service.ts
+    <verbo>-<recurso>.controller.ts
 ```
 
-O nome do arquivo é **por endpoint** (`get-trails.*`, `get-trail-detail.*`, `post-user.*`), exceto `routes.ts`, que é **por módulo**. Motivo: vários endpoints convivem na mesma pasta sem um `service.ts` gigante compartilhado, mas criar um `Router` do Express por endpoint é o inverso do propósito do `Router` (ele existe pra *agrupar*).
+Cada endpoint mora na sua própria subpasta (`<verbo>-<recurso>/`), não solto na raiz do módulo. Só `<módulo>.routes.ts` e auxiliares genuinamente compartilhados (`helpers.ts`, `constants.ts`) ficam na raiz. Motivo: com módulos de 4+ endpoints, uma pasta plana com 20+ arquivos fica difícil de escanear visualmente; a subpasta por endpoint resolve isso sem juntar camadas de endpoints diferentes num `service.ts` compartilhado. Criar um `Router` do Express por endpoint continua sendo o inverso do propósito do `Router` (ele existe pra *agrupar*) — por isso `routes.ts` continua único por módulo, na raiz.
+
+Import entre endpoints do mesmo módulo (ex.: `purchase-shop-item` usando `SHELL_BALANCE_SQL` de `get-user-balance`) atravessa a subpasta do vizinho: `../get-user-balance/get-user-balance.repository.ts`. Import para `helpers.ts`/`constants.ts` na raiz do módulo: `../helpers.ts`. Isso é aceitável e não é motivo pra promover algo a `shared/` — só faça isso se o código for reaproveitado por **outro módulo**, não só por outro endpoint do mesmo módulo.
 
 Endpoints de listagem devem considerar paginação por padrão (`limit`/`offset`), com teto razoável de 50 itens, caso o usuário peça. Caso ele não especifique, devolva tudo.
 
@@ -71,7 +77,7 @@ Cada camada tem uma responsabilidade que não muda quando o módulo cresce:
 ### repository
 
 ```ts
-import { pool } from '../../db/client.ts'
+import { pool } from '../../../db/client.ts'
 import type { PoolClient } from 'pg'
 
 export type TrailRow = {
@@ -103,7 +109,7 @@ export async function createUser(data: UserInput, client: PoolClient | typeof po
 
 ```ts
 import { z } from 'zod'
-import { baseSchema } from '../../shared/validation/base-schema.ts'
+import { baseSchema } from '../../../shared/validation/base-schema.ts'
 
 // GET sem entrada de body
 export const schema = {
@@ -157,7 +163,7 @@ export const schema = {
 ### dto
 
 ```ts
-import { baseDto } from '../../shared/validation/base-dto.ts'
+import { baseDto } from '../../../shared/validation/base-dto.ts'
 import type { TrailRow } from './get-trails.repository.ts'
 import { schema } from './get-trails.schema.ts'
 
@@ -193,8 +199,8 @@ export const service = {
 ```ts
 import type { Request, Response } from 'express'
 
-import { HTTP_STATUS } from '../../shared/constants.ts'
-import { APIError } from '../../shared/error/api-error.ts'
+import { HTTP_STATUS } from '../../../shared/constants.ts'
+import { APIError } from '../../../shared/error/api-error.ts'
 import { dto } from './get-trails.dto.ts'
 import { service } from './get-trails.service.ts'
 
@@ -235,8 +241,8 @@ export async function postUserSubmission(req: Request, res: Response): Promise<v
 
 ```ts
 import { Router } from 'express'
-import { getTrails } from './get-trails.controller.ts'
-import { getTrailDetail } from './get-trail-detail.controller.ts'
+import { getTrails } from './get-trails/get-trails.controller.ts'
+import { getTrailDetail } from './get-trail-detail/get-trail-detail.controller.ts'
 
 export const trailsRouter = Router()
 
@@ -244,7 +250,7 @@ trailsRouter.get('/', getTrails)
 trailsRouter.get('/:slug', getTrailDetail)
 ```
 
-**Atenção:** Este arquivo é acumulativo. Se estiver criando um novo endpoint num módulo que já existe, **não sobrescreva este arquivo**. Apenas adicione o `import` da nova controller no topo e a nova rota (ex: `trailsRouter.post('/', createTrail)`) no final.
+**Atenção:** Este arquivo é acumulativo. Se estiver criando um novo endpoint num módulo que já existe, **não sobrescreva este arquivo**. Apenas adicione o `import` da nova controller no topo, apontando para `./<verbo>-<recurso>/<verbo>-<recurso>.controller.ts`, e a nova rota (ex: `trailsRouter.post('/', createTrail)`) no final.
 
 E registre em `src/modules/router.ts`:
 
