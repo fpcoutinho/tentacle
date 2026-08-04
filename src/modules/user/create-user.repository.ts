@@ -8,7 +8,6 @@ export type UserRow = {
   gender: string | null
   email: string
   birth_date: Date | null
-  shell_balance: number
   created_at: Date
   updated_at: Date
 }
@@ -30,7 +29,7 @@ export async function createUser(input: CreateUserInput): Promise<UserRow> {
     const result = await client.query<UserRow>(
       `INSERT INTO users (id, name, gender, email, birth_date)
        VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, name, gender, email, birth_date, shell_balance, created_at, updated_at`,
+       RETURNING id, name, gender, email, birth_date, created_at, updated_at`,
       [input.id, input.name, input.gender, input.email, input.birthDate]
     )
 

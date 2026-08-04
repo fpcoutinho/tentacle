@@ -14,8 +14,7 @@ export const dto = {
         name: user.name,
         gender: user.gender,
         email: user.email,
-        birthDate: user.birth_date ? user.birth_date.toISOString().slice(0, 10) : null,
-        shellBalance: user.shell_balance
+        birthDate: user.birth_date ? user.birth_date.toISOString().slice(0, 10) : null
       })
   }
 }

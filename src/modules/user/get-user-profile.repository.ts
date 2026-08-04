@@ -4,7 +4,6 @@ export type UserProfileRow = {
   id: string
   name: string
   gender: string | null
-  shell_balance: number
   avatar_idx: number
   missions_completed: number
   total_missions: number
@@ -32,7 +31,6 @@ export async function findUserProfileById(id: string): Promise<UserProfileRow | 
        u.id,
        u.name,
        u.gender,
-       u.shell_balance,
        COALESCE(a.avatar_idx, 0) AS avatar_idx,
        (SELECT COUNT(*)::int FROM user_mission_completions umc WHERE umc.user_id = u.id) AS missions_completed,
        (SELECT COUNT(*)::int FROM missions) AS total_missions,

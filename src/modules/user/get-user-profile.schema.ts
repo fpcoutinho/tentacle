@@ -8,7 +8,6 @@ export const schema = {
     body: z.object({
       name: z.string(),
       gender: z.enum(['male', 'female', 'other']).nullable(),
-      shellBalance: z.number(),
       missionsCompleted: z.number(),
       totalMissions: z.number(),
       rank: z.enum(RANKS),

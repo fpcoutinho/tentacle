@@ -20,8 +20,7 @@ export const schema = {
       name: z.string(),
       gender: z.enum(['male', 'female', 'other']).nullable(),
       email: z.string(),
-      birthDate: z.string().nullable(),
-      shellBalance: z.number()
+      birthDate: z.string().nullable()
     })
   }
 }

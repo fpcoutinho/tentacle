@@ -61,7 +61,7 @@ O modelo abaixo resume as entidades principais do backend e como elas se relacio
 flowchart LR
 	FA[Firebase Auth<br/>futuro provedor de identidade]
 
-	U[Users<br/>id<br/>name<br/>gender<br/>email<br/>birth_date<br/>shell_balance]
+	U[Users<br/>id<br/>name<br/>gender<br/>email<br/>birth_date]
 
 	A[User Avatar Settings<br/>user_id<br/>avatar_idx<br/>active_frame<br/>active_accessory<br/>active_color]
 
@@ -106,7 +106,7 @@ flowchart LR
 
 ### Leitura rápida do modelo
 
-- **`users`**: Guarda o perfil base e o saldo atual de conchas. `email` é obrigatório e único; `birth_date` é opcional.
+- **`users`**: Guarda o perfil base. `email` é obrigatório e único; `birth_date` é opcional. Não guarda saldo de conchas — não há `shell_balance` na tabela; o saldo é sempre derivado ao vivo do `shell_ledger` (última linha, `balance_after`), nunca cacheado, pra evitar divergência entre esse valor e o histórico.
 - **`user_avatar_settings`**: Concentra o visual ativo do usuário — `active_frame`/`active_accessory`/`active_color` referenciam `user_inventory`, garantindo que só é possível equipar item já possuído.
 - **`trails` e `missions`**: Organizam o conteúdo pedagógico. `missions` carrega `summary`/`bibliography`/`faqs` como JSONB por serem conteúdo esparso (só ~3 das 29 missões usam cada um). Não guarda `icon` nem HTML de minigame — são decisão de apresentação, responsabilidade do front.
 - **`mission_questions`** (principal ou extra, via `kind`) e **`mission_question_options`**: Armazenam a estrutura das questões. `order_index` é obrigatório porque o front valida a resposta certa pelo índice da opção, não pelo texto. `max_reward_shells` vive na pergunta, porque a principal e os extras têm curvas de recompensa diferentes.

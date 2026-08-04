@@ -9,7 +9,6 @@ export const dto = {
       schema.response.body.parse({
         name: profile.name,
         gender: profile.gender,
-        shellBalance: profile.shell_balance,
         missionsCompleted: profile.missions_completed,
         totalMissions: profile.total_missions,
         rank: profile.rank,
