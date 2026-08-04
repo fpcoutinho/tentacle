@@ -22,8 +22,12 @@ export type CreateUserInput = {
 }
 
 export async function createUser(input: CreateUserInput): Promise<UserRow> {
+  const client = await pool.connect()
+
   try {
-    const result = await pool.query<UserRow>(
+    await client.query('BEGIN')
+
+    const result = await client.query<UserRow>(
       `INSERT INTO users (id, name, gender, email, birth_date)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id, name, gender, email, birth_date, shell_balance, created_at, updated_at`,
@@ -35,12 +39,20 @@ export async function createUser(input: CreateUserInput): Promise<UserRow> {
       throw new Error('INSERT INTO users did not return a row')
     }
 
+    await client.query('INSERT INTO user_avatar_settings (user_id) VALUES ($1)', [input.id])
+
+    await client.query('COMMIT')
+
     return row
   } catch (error) {
+    await client.query('ROLLBACK')
+
     if (isUniqueViolation(error)) {
       throw new APIError(HTTP_STATUS.CONFLICT, 'conflict', 'User profile already exists')
     }
     throw error
+  } finally {
+    client.release()
   }
 }
 
