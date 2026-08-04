@@ -1,6 +1,8 @@
+import cors from 'cors'
 import express from 'express'
 import { pinoHttp } from 'pino-http'
 
+import { env } from './config/env.ts'
 import { logger } from './config/logger.ts'
 import { modulesRouter } from './modules/router.ts'
 import { authMiddleware } from './shared/auth/auth.middleware.ts'
@@ -9,6 +11,14 @@ import { errorHandlerMiddleware } from './shared/error/error-handler.middleware.
 
 export const app = express()
 
+const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true
+  })
+)
 app.use(pinoHttp({ logger }))
 app.use(express.json())
 

@@ -12,7 +12,8 @@ const envSchema = z
       .transform((value) => value === 'true'),
     FIREBASE_PROJECT_ID: z.string().min(1).optional(),
     FIREBASE_CLIENT_EMAIL: z.email().optional(),
-    FIREBASE_PRIVATE_KEY: z.string().min(1).optional()
+    FIREBASE_PRIVATE_KEY: z.string().min(1).optional(),
+    CORS_ORIGIN: z.string().min(1).default('http://localhost:5173')
   })
   .superRefine((value, ctx) => {
     if (!value.FIREBASE_AUTH_ENABLED) {
