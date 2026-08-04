@@ -139,10 +139,13 @@ Crie um arquivo `.env` na raiz com as variáveis abaixo:
 ```env
 PORT=3000
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tentacle
+FIREBASE_AUTH_ENABLED=true
 FIREBASE_PROJECT_ID=seu-project-id
 FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project.iam.gserviceaccount.com
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
+
+`FIREBASE_AUTH_ENABLED=false` desliga a validação real do Firebase e troca o middleware de autenticação pelo dummy auth ([dummy-auth.middleware.ts](src/shared/auth/dummy-auth.middleware.ts)), que autentica no mesmo formato do Firebase (`Authorization: Bearer <valor>`), mas usa o valor do token diretamente como `id` do usuário, sem validar nada — útil para testar localmente sem precisar de credenciais Firebase. Nesse modo, as variáveis `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL` e `FIREBASE_PRIVATE_KEY` ficam opcionais.
 
 ### 4) Rodar as migrações e popular o banco
 

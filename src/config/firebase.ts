@@ -3,6 +3,10 @@ import { getAuth } from 'firebase-admin/auth'
 
 import { env } from './env.ts'
 
+if (!env.FIREBASE_PROJECT_ID || !env.FIREBASE_CLIENT_EMAIL || !env.FIREBASE_PRIVATE_KEY) {
+  throw new Error('Missing required Firebase environment variables')
+}
+
 const app =
   getApps()[0] ??
   initializeApp({

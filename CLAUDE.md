@@ -125,6 +125,7 @@ npm run ci
 ```env
 PORT=3000
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tentacle
+FIREBASE_AUTH_ENABLED=true
 FIREBASE_PROJECT_ID=seu-project-id
 FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project.iam.gserviceaccount.com
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
@@ -145,6 +146,6 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 4. **Scripts de teste descartáveis** vão em `plan/` (já no `.gitignore`), nunca na raiz do projeto.
 5. **Validação obrigatória:** Sempre rode `npm run check` após alterações relevantes no código.
 6. **Comunicação:** Se houver dúvida sobre regra de negócio, contrato ou schema, pare e pergunte antes de improvisar.
-7. **Base de referência:** Para novos endpoints, siga o fluxo de módulo já existente em `src/modules/trails` como exemplo base.
- com stack no log e mensagem neutra para o cliente.
+7. **Base de referência:** Para novos endpoints, siga o fluxo de módulo já existente em `src/modules/trails` como exemplo base. com stack no log e mensagem neutra para o cliente.
+8. **Testes**: Não teste (npm run dev, script de teste) tudo que for pedido a vc. Isso gasta muitos tokens com algo que seria trivial pro engenheiro.
 - **Códigos padronizados:** `validation_error`, `unauthorized`, `forbidden`, `not_found`, `conflict`, `internal_error`.
