@@ -10,6 +10,7 @@ import { HTTP_STATUS } from './shared/constants.ts'
 import { errorHandlerMiddleware } from './shared/error/error-handler.middleware.ts'
 
 export const app = express()
+app.disable('etag')
 
 const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
 
