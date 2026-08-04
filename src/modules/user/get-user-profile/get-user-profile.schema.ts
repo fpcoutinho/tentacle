@@ -12,7 +12,10 @@ export const schema = {
       totalMissions: z.number(),
       rank: z.enum(RANKS),
       avatarIdx: z.number(),
-      avatarsUnlocked: z.number()
+      avatarsUnlocked: z.number(),
+      activeFrame: z.number().nullable(),
+      activeAccessory: z.number().nullable(),
+      activeColor: z.number().nullable()
     })
   }
 }

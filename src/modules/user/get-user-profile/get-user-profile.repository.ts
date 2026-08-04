@@ -6,6 +6,9 @@ export type UserProfileRow = {
   name: string
   gender: string | null
   avatar_idx: number
+  active_frame: number | null
+  active_accessory: number | null
+  active_color: number | null
   missions_completed: number
   total_missions: number
   trails_completed: number
@@ -18,6 +21,9 @@ export async function findUserProfileById(id: string): Promise<UserProfileRow | 
        u.name,
        u.gender,
        COALESCE(a.avatar_idx, 0) AS avatar_idx,
+       a.active_frame,
+       a.active_accessory,
+       a.active_color,
        (SELECT COUNT(*)::int FROM user_mission_completions umc WHERE umc.user_id = u.id) AS missions_completed,
        (SELECT COUNT(*)::int FROM missions) AS total_missions,
        (${trailsCompletedQuery()}) AS trails_completed

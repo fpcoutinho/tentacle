@@ -13,7 +13,10 @@ export const dto = {
         totalMissions: profile.total_missions,
         rank: profile.rank,
         avatarIdx: profile.avatar_idx,
-        avatarsUnlocked: profile.avatars_unlocked
+        avatarsUnlocked: profile.avatars_unlocked,
+        activeFrame: profile.active_frame,
+        activeAccessory: profile.active_accessory,
+        activeColor: profile.active_color
       })
   }
 }
