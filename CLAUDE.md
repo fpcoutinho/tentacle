@@ -1,4 +1,3 @@
-```markdown
 # Tentacle Backend (Abstractio)
 
 Backend do projeto educacional Abstractio. API REST em Node.js com TypeScript e Express, focada em manter uma arquitetura enxuta, modular e validada.
@@ -40,6 +39,9 @@ Backend do projeto educacional Abstractio. API REST em Node.js com TypeScript e 
 │   │   ├── trails/           # Endpoints de trilhas e missões
 │   │   ├── shop/             # Endpoints da loja
 │   │   └── user/             # Endpoints de usuário
+│   │       ├── user.routes.ts       # um por módulo, acumulativo
+│   │       ├── user.repository.ts   # opcional: SQL compartilhado no módulo
+│   │       └── get-user-profile/    # uma subpasta por endpoint (5 arquivos)
 │   └── shared/
 │       ├── auth/             # Autenticação e tipos (auth.middleware, firebase-auth)
 │       ├── error/            # Tratamento de erros (APIError, errorHandler)
@@ -61,18 +63,9 @@ A aplicação segue um padrão modular por domínio. O fluxo de chamadas e respo
 
 ### Padrão de Arquivos por Endpoint
 
-**INSTRUÇÃO CRÍTICA:** Sempre que for criar um endpoint novo, refatorar um módulo existente, ou criar uma rota nova, você **DEVE** consultar e seguir rigorosamente a skill **`create-or-refactor-module`**. 
+**INSTRUÇÃO CRÍTICA:** Para criar endpoint novo, criar módulo novo ou refatorar módulo existente, carregue a skill **`create-or-refactor-module`** e siga-a. Ela é a fonte da verdade de estrutura, templates e armadilhas — não improvise nem reconstrua o padrão de memória a partir deste resumo.
 
-A skill contém os templates exatos de cada camada, as convenções de nome e export, as regras de ouro para evitar bugs silenciosos (como o uso do Zod e mapeamento snake_case/camelCase) e o fluxo de verificação obrigatório. Não improvise a estrutura de arquivos; use a skill como fonte da verdade.
-
-Como referência base, os arquivos por endpoint seguem o padrão de nomenclatura:
-- `<verbo>-<recurso>.controller.ts`
-- `<verbo>-<recurso>.service.ts`
-- `<verbo>-<recurso>.repository.ts`
-- `<verbo>-<recurso>.dto.ts`
-- `<verbo>-<recurso>.schema.ts`
-
-*(Exceção: o arquivo de rotas do módulo é único e chama-se `<módulo>.routes.ts`)*. Para novos endpoints, siga o fluxo de módulo já existente em `src/modules/trails` como exemplo base.
+Resumo de orientação (o detalhe está na skill): cada endpoint mora na própria subpasta `src/modules/<módulo>/<verbo>-<recurso>/`, com 5 arquivos — `.controller.ts`, `.service.ts`, `.repository.ts`, `.dto.ts`, `.schema.ts`. O arquivo de rotas é único por módulo, fica na raiz do módulo e chama-se `<módulo>.routes.ts`.
 
 ## Convenções de Código
 
@@ -87,7 +80,7 @@ Como referência base, os arquivos por endpoint seguem o padrão de nomenclatura
 - As rotas atuais são autenticadas via middleware global em `/api/v1`.
 - O middleware está em `src/shared/auth/auth.middleware.ts` (implementado via Firebase Admin em `src/shared/auth/firebase-auth.middleware.ts`).
 - O token deve vir no header: `Authorization: Bearer <token>`.
-- O middleware popula `req.user`. Use `AuthenticatedRequest` no controller quando precisar do UID.
+- O middleware popula `req.user`, mas o tipo (`src/shared/auth/express.d.ts`) é sempre `AuthUser | undefined`, mesmo em rota autenticada. Quando o controller precisar do UID, faça a checagem inline: `if (!req.user) throw new APIError(HTTP_STATUS.UNAUTHORIZED, 'unauthorized', '...')`. **Não existe e não deve ser criado um tipo `AuthenticatedRequest`** — seria garantia de compilação sem checagem real.
 
 ## Banco de Dados e Execução
 
@@ -146,6 +139,5 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 4. **Scripts de teste descartáveis** vão em `plan/` (já no `.gitignore`), nunca na raiz do projeto.
 5. **Validação obrigatória:** Sempre rode `npm run check` após alterações relevantes no código.
 6. **Comunicação:** Se houver dúvida sobre regra de negócio, contrato ou schema, pare e pergunte antes de improvisar.
-7. **Base de referência:** Para novos endpoints, siga o fluxo de módulo já existente em `src/modules/trails` como exemplo base. com stack no log e mensagem neutra para o cliente.
-8. **Testes**: Não teste (npm run dev, script de teste) tudo que for pedido a vc. Isso gasta muitos tokens com algo que seria trivial pro engenheiro.
-- **Códigos padronizados:** `validation_error`, `unauthorized`, `forbidden`, `not_found`, `conflict`, `internal_error`.
+7. **Base de referência:** Para novos endpoints, use `src/modules/trails` como exemplo do fluxo já consolidado.
+8. **Não teste de ponta a ponta por conta própria.** `npm run check` é a verificação padrão e suficiente. Não suba `npm run dev`, não escreva script em `plan/` e não chame a API via curl a menos que o usuário peça explicitamente — isso queima tokens em algo trivial para o engenheiro.
