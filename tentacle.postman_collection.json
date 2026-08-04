@@ -26,14 +26,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user"]
             }
           },
           "response": []
@@ -50,14 +44,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "trails"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trails"]
             }
           },
           "response": []
@@ -74,12 +62,8 @@
         "header": [],
         "url": {
           "raw": "{{baseUrl}}/health",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "health"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
         }
       },
       "response": []
