@@ -125,6 +125,43 @@
       ]
     },
     {
+      "name": "Shop",
+      "item": [
+        {
+          "name": "Get Shop Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/shop/items?category=frame",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "shop", "items"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "offeset",
+                  "value": "0",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "frame",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Health",
       "request": {
         "auth": {
