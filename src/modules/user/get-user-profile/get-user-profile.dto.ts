@@ -11,7 +11,10 @@ export const dto = {
         gender: profile.gender,
         missionsCompleted: profile.missions_completed,
         totalMissions: profile.total_missions,
-        rank: profile.rank,
+        rank: {
+          level: profile.level,
+          patent: profile.rank
+        },
         avatarIdx: profile.avatar_idx,
         avatarsUnlocked: profile.avatars_unlocked,
         activeFrame: profile.active_frame,

@@ -10,7 +10,10 @@ export const schema = {
       gender: z.enum(['male', 'female', 'other']).nullable(),
       missionsCompleted: z.number(),
       totalMissions: z.number(),
-      rank: z.enum(RANKS),
+      rank: z.object({
+        level: z.number(),
+        patent: z.enum(RANKS)
+      }),
       avatarIdx: z.number(),
       avatarsUnlocked: z.number(),
       activeFrame: z.number().nullable(),

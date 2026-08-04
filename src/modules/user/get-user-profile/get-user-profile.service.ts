@@ -6,6 +6,7 @@ import { findUserProfileById, type UserProfileRow } from './get-user-profile.rep
 
 export type UserProfileResult = UserProfileRow & {
   rank: (typeof RANKS)[number]
+  level: number
   avatars_unlocked: number
 }
 
@@ -16,8 +17,8 @@ export const service = {
       throw new APIError(HTTP_STATUS.NOT_FOUND, 'not_found', 'User profile not found')
     }
 
-    const { rank, avatarsUnlocked } = resolveRank(row.trails_completed)
+    const { rank, level, avatarsUnlocked } = resolveRank(row.trails_completed)
 
-    return { ...row, rank, avatars_unlocked: avatarsUnlocked }
+    return { ...row, rank, level, avatars_unlocked: avatarsUnlocked }
   }
 }
