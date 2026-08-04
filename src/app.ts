@@ -19,11 +19,6 @@ app.get('/health', (_req, res) => {
 const v1Router = express.Router()
 
 v1Router.use(authMiddleware)
-
-v1Router.get('/me', (req, res) => {
-  res.status(HTTP_STATUS.OK).json({ user: req.user })
-})
-
 v1Router.use(modulesRouter)
 
 app.use('/api/v1', v1Router)

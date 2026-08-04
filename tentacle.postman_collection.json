@@ -1,0 +1,109 @@
+{
+  "info": {
+    "_postman_id": "39f4aa1b-67a9-4635-b0b9-dc5aa8430d67",
+    "name": "Tentacle",
+    "description": "Colecao dos endpoints do backend Tentacle. Auth global via Bearer token (funciona tanto com Firebase quanto com o dummy auth quando FIREBASE_AUTH_ENABLED=false).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27616095"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Appa Nauta\",\n  \"gender\": \"male\",\n  \"email\": \"apponauta@meow.com\",\n  \"birthDate\": \"2017-09-25\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Trails",
+      "item": [
+        {
+          "name": "Get Trails",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trails",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "trails"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "authToken",
+      "value": "dummy-user-1",
+      "description": "Com FIREBASE_AUTH_ENABLED=false, qualquer valor vira o id do usuario. Com Firebase ativo, use um ID token real."
+    }
+  ]
+}
