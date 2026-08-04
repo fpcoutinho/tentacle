@@ -1,7 +1,7 @@
 import { HTTP_STATUS } from '../../../shared/constants.ts'
 import { APIError } from '../../../shared/error/api-error.ts'
-import type { RANKS } from '../constants.ts'
-import { resolveRank } from '../helpers.ts'
+import type { RANKS } from '../user.constants.ts'
+import { resolveRank } from '../user.helpers.ts'
 import { findUserProfileById, type UserProfileRow } from './get-user-profile.repository.ts'
 
 export type UserProfileResult = UserProfileRow & {

@@ -1,7 +1,7 @@
 import { HTTP_STATUS } from '../../../shared/constants.ts'
 import { APIError } from '../../../shared/error/api-error.ts'
-import { countTrailsCompleted } from '../get-user-profile/get-user-profile.repository.ts'
-import { resolveRank } from '../helpers.ts'
+import { resolveRank } from '../user.helpers.ts'
+import { countTrailsCompleted } from '../user.repository.ts'
 import {
   type UpdateUserProfileInput,
   type UpdateUserProfileRow,

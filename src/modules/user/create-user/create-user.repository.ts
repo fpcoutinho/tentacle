@@ -1,6 +1,7 @@
 import { pool } from '../../../db/client.ts'
 import { HTTP_STATUS } from '../../../shared/constants.ts'
 import { APIError } from '../../../shared/error/api-error.ts'
+import { isUniqueViolation } from '../../../shared/error/db-error.ts'
 
 export type UserRow = {
   id: string
@@ -53,8 +54,4 @@ export async function createUser(input: CreateUserInput): Promise<UserRow> {
   } finally {
     client.release()
   }
-}
-
-function isUniqueViolation(error: unknown): boolean {
-  return typeof error === 'object' && error !== null && 'code' in error && error.code === '23505'
 }

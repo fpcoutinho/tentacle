@@ -1,6 +1,7 @@
 import { pool } from '../../../db/client.ts'
 import { HTTP_STATUS } from '../../../shared/constants.ts'
 import { APIError } from '../../../shared/error/api-error.ts'
+import { isForeignKeyViolation } from '../../../shared/error/db-error.ts'
 
 export type AvatarSlot = 'frame' | 'accessory' | 'color'
 
@@ -62,8 +63,4 @@ export async function updateActiveAvatarItem(
     }
     throw error
   }
-}
-
-function isForeignKeyViolation(error: unknown): boolean {
-  return typeof error === 'object' && error !== null && 'code' in error && error.code === '23503'
 }

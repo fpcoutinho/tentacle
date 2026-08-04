@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { baseSchema } from '../../../shared/validation/base-schema.ts'
-import { RANKS } from '../constants.ts'
+import { RANKS } from '../user.constants.ts'
 
 export const schema = {
   response: {

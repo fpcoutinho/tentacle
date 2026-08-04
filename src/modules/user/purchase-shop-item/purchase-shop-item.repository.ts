@@ -1,7 +1,8 @@
 import { pool } from '../../../db/client.ts'
 import { HTTP_STATUS } from '../../../shared/constants.ts'
 import { APIError } from '../../../shared/error/api-error.ts'
-import { SHELL_BALANCE_SQL } from '../get-user-balance/get-user-balance.repository.ts'
+import { isUniqueViolation } from '../../../shared/error/db-error.ts'
+import { shellBalanceQuery } from '../user.repository.ts'
 
 export type PurchaseShopItemInput = {
   userId: string
@@ -50,7 +51,7 @@ export async function purchaseShopItem(input: PurchaseShopItemInput): Promise<Pu
     }
 
     const balanceResult = await client.query<{ shell_balance: number }>(
-      `SELECT ${SHELL_BALANCE_SQL} AS shell_balance`,
+      `SELECT ${shellBalanceQuery()} AS shell_balance`,
       [input.userId]
     )
     const balance = balanceResult.rows[0]?.shell_balance ?? 0
@@ -102,8 +103,4 @@ export async function purchaseShopItem(input: PurchaseShopItemInput): Promise<Pu
   } finally {
     client.release()
   }
-}
-
-function isUniqueViolation(error: unknown): boolean {
-  return typeof error === 'object' && error !== null && 'code' in error && error.code === '23505'
 }

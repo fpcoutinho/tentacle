@@ -1,4 +1,4 @@
-import { RANK_THRESHOLDS, RANKS } from './constants.ts'
+import { RANK_THRESHOLDS, RANKS } from './user.constants.ts'
 
 export function resolveRank(trailsCompleted: number): {
   rank: (typeof RANKS)[number]
