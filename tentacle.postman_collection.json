@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "39f4aa1b-67a9-4635-b0b9-dc5aa8430d67",
-    "name": "Tentacle",
+    "name": "tentacle",
     "description": "Colecao dos endpoints do backend Tentacle. Auth global via Bearer token (funciona tanto com Firebase quanto com o dummy auth quando FIREBASE_AUTH_ENABLED=false).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "27616095"
@@ -26,8 +26,45 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
             }
           },
           "response": []
@@ -44,8 +81,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trails"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "trails"
+              ]
             }
           },
           "response": []
@@ -62,8 +105,12 @@
         "header": [],
         "url": {
           "raw": "{{baseUrl}}/health",
-          "host": ["{{baseUrl}}"],
-          "path": ["health"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
         }
       },
       "response": []
@@ -79,6 +126,30 @@
       }
     ]
   },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
   "variable": [
     {
       "key": "baseUrl",
