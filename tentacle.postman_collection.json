@@ -33,6 +33,28 @@
           "response": []
         },
         {
+          "name": "Purchase Shop Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"itemId\": 1 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user/inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "inventory"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Update User",
           "request": {
             "method": "PATCH",
@@ -55,12 +77,9 @@
           "response": []
         },
         {
-          "name": "Get User",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
+          "name": "Update User Active Avatar",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [
               {
                 "key": "Content-Type",
@@ -69,8 +88,26 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": ""
+              "raw": "{\n  \"slot\": \"frame\",\n  \"id\": \"1\"\n}"
             },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user/avatar/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "avatar", "active"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
               "host": ["{{baseUrl}}"],
@@ -81,9 +118,6 @@
         },
         {
           "name": "Get User Balance",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "method": "GET",
             "header": [
@@ -92,14 +126,28 @@
                 "value": "application/json"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/balance",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "user", "balance"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Inventory",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user/inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "inventory"]
             }
           },
           "response": []
