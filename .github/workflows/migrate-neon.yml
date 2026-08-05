@@ -1,0 +1,20 @@
+name: migrate neon
+
+# Apenas manual: aplicar schema fora de uma release.
+# O caminho normal e o workflow "release", que ja migra antes de deployar.
+on:
+  workflow_dispatch:
+
+# Mesmo grupo do release para nunca migrar em paralelo: duas execucoes
+# concorrentes disputam a tabela de controle do node-pg-migrate.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    uses: ./.github/workflows/_migrate.yml
+    with:
+      ref: ${{ github.ref }}
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}

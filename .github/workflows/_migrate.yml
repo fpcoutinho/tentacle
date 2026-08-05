@@ -1,0 +1,73 @@
+name: migrate (reusable)
+
+# Workflow reutilizavel: concentra a logica de migracao num lugar so.
+# Chamado pelo pipeline "release" e pelo "migrate neon" (manual).
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Ref, tag ou branch cujo schema sera aplicado
+        type: string
+        required: true
+    secrets:
+      DATABASE_URL:
+        required: true
+
+jobs:
+  # Job separado e SEM environment de proposito: assim a checagem roda
+  # livre e a aprovacao manual so e pedida quando ha migracao de verdade.
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      pending: ${{ steps.detect.outputs.pending }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Detect pending migrations
+        id: detect
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -o pipefail
+          if ! out=$(npx node-pg-migrate up --dry-run 2>&1); then
+            echo "$out"
+            echo '::error::Falha ao consultar migracoes pendentes'
+            exit 1
+          fi
+          echo "$out"
+          if grep -q 'No migrations to run!' <<< "$out"; then
+            echo 'Nenhuma migracao pendente - job de migracao sera pulado'
+            echo 'pending=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'Ha migracao pendente'
+            echo 'pending=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  migrate:
+    needs: check
+    if: needs.check.outputs.pending == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      # --envPath aponta para um .env inexistente no CI; o node-pg-migrate
+      # ignora o arquivo ausente e usa DATABASE_URL do ambiente.
+      - name: Run migrations
+        run: npm run migrate:up
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
