@@ -25,6 +25,17 @@ export const schema = {
             percent: z.number()
           })
         ),
+        missions: z.array(
+          z.object({
+            missionId: z.number(),
+            missionSlug: z.string(),
+            levelId: z.number(),
+            completed: z.boolean(),
+            shellsEarned: z.number(),
+            extrasCompleted: z.number(),
+            totalExtras: z.number()
+          })
+        ),
         completedMissionIds: z.array(z.number())
       })
     })
