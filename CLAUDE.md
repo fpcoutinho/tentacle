@@ -117,12 +117,56 @@ npm run typecheck-and-lint
 
 ```env
 PORT=3000
+RUNTIME_MODE=standalone
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tentacle
+CORS_ORIGIN=http://localhost:5173
 FIREBASE_AUTH_ENABLED=true
 FIREBASE_PROJECT_ID=seu-project-id
 FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project.iam.gserviceaccount.com
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
+
+### Formato da `FIREBASE_PRIVATE_KEY` (armadilha)
+
+As aspas acima valem **apenas no arquivo `.env`**, onde o `dotenv` as remove e expande os `\n` ao carregar. Ao cadastrar a variável num painel de hospedagem (Vercel, Cloud Run, Koyeb), o valor digitado é literal — **não existe parsing de arquivo, e as aspas não são removidas**.
+
+Colar o valor com as aspas faz o `createPrivateKey` receber uma string começando com `"`, e o `cert()` do Firebase quebra no carregamento do módulo com:
+
+```text
+FirebaseAppError: Failed to parse private key
+error:1E08010C:DECODER routines::unsupported (ERR_OSSL_UNSUPPORTED)
+```
+
+Como o `firebase.ts` é importado na cadeia do `authMiddleware`, isso derruba o processo inteiro no cold start, antes de qualquer rota existir — o sintoma é 500 em tudo, inclusive no `/health`.
+
+Fora do `.env`, os dois formatos válidos são **sem aspas em nenhuma ponta**: uma linha só com `\n` literais (o `.replace(/\\n/g, '\n')` do `firebase.ts` os converte), ou o PEM multi-linha real (o `replace` vira no-op). A mesma regra vale para as demais variáveis: `DATABASE_URL` colada com aspas falha no `z.url()` do `env.ts`.
+
+## Deploy e Isolamento de Runtime
+
+A aplicação roda em dois modos, sem que a regra de negócio ou o `src/app.ts` mudem:
+
+- **standalone** — `src/server.ts` faz `app.listen()`, checa o banco e trata `SIGTERM`/`SIGINT`. É o modo de `npm run dev` e de container (Cloud Run, Koyeb, Docker).
+- **serverless** — `api/index.ts` apenas importa o `app` de `src/app.ts` e o exporta como handler. O `vercel.json` reescreve todas as rotas para ele.
+
+O modo é declarado pela env `RUNTIME_MODE` (`standalone` por padrão), **não** por detecção de provedor — checar algo como `process.env.VERCEL` acoplaria o `src/` à hospedagem, que é exatamente o que essa separação evita. O `db/client.ts` usa esse valor para dimensionar o pool (`max: 1` em serverless, já que instâncias escalam horizontalmente) e para decidir se um erro de client ocioso derruba o processo — em serverless não pode, porque mataria o container junto com requisições em voo.
+
+`RUNTIME_MODE=serverless` precisa ser cadastrado no painel. Esquecer volta o `process.exit(1)`.
+
+### Override do `jose` (não remova sem testar em serverless)
+
+O `package.json` fixa `"overrides": { "jose": "^5.10.0" }`. Motivo:
+
+```text
+firebase-admin@14.2.0 → jwks-rsa@4.1.0 → jose@6.x
+```
+
+O `jose@6` é ESM puro (só existe `dist/webapi/index.js`), mas o `jwks-rsa` é CommonJS e faz `require('jose')`. Isso só funciona em runtimes com `require(esm)` nativo — o Node local resolve, mas o bootstrap da Vercel substitui o `Module._load` e não implementa esse interop, quebrando com `ERR_REQUIRE_ESM` no cold start. O mesmo acontece em AWS Lambda.
+
+A v5 é a maior versão do `jose` que ainda publica build CJS, e o `jwks-rsa` usa dela apenas `importJWK` e `exportSPKI`, ambas com assinatura idêntica — por isso o downgrade é seguro.
+
+Não é resolvível por upgrade: `jwks-rsa@4.1.0` e `firebase-admin@14.2.0` já são as últimas versões, e a issue upstream ([auth0/node-jwks-rsa#493](https://github.com/auth0/node-jwks-rsa/issues/493)) foi fechada sem correção de código. O override deixa de ser necessário quando o `jwks-rsa` passar a usar `await import('jose')`.
+
+**Atenção:** estamos fixando uma dependência transitiva abaixo do range declarado pelo pai (`jose: ^6.1.3`). Se o `jwks-rsa` adotar alguma API exclusiva da v6, isso quebra em runtime, não na instalação. Revalidar ao atualizar `firebase-admin`.
 
 ## Tratamento de Erros
 
