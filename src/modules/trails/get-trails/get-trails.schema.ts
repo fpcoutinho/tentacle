@@ -10,6 +10,7 @@ export const schema = {
           id: z.number(),
           slug: z.string(),
           title: z.string(),
+          subtitle: z.string(),
           shortTitle: z.string(),
           orderIndex: z.number()
         })

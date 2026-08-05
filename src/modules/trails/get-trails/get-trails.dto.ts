@@ -11,6 +11,7 @@ export const dto = {
           id: trail.id,
           slug: trail.slug,
           title: trail.title,
+          subtitle: trail.subtitle,
           shortTitle: trail.short_title,
           orderIndex: trail.order_index
         }))

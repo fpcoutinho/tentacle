@@ -84,7 +84,7 @@ Resumo de orientação (o detalhe está na skill): cada endpoint mora na própri
 
 ## Banco de Dados e Execução
 
-O cliente do PostgreSQL fica em `src/db/client.ts`. O projeto usa `node-pg-migrate` e o banco local pode ser iniciado via Docker Compose. O modelo de dados foca em trilhas, missões, perguntas, submissões, inventário, loja, conchas e bookmarks.
+O cliente do PostgreSQL fica em `src/db/client.ts`. O projeto usa `node-pg-migrate` e o banco local pode ser iniciado via Docker Compose. O modelo de dados foca em trilhas, níveis, missões, perguntas, submissões, inventário, loja, conchas e bookmarks.
 
 ### Comandos Locais
 

@@ -65,9 +65,11 @@ flowchart LR
 
 	A[User Avatar Settings<br/>user_id<br/>avatar_idx<br/>active_frame<br/>active_accessory<br/>active_color]
 
-	T[Trails<br/>id<br/>slug<br/>title<br/>short_title<br/>order_index]
+	T[Trails<br/>id<br/>slug<br/>title<br/>subtitle<br/>short_title<br/>order_index]
 
-	M[Missions<br/>id<br/>trail_id<br/>slug<br/>title<br/>emblem<br/>theory<br/>has_minigame<br/>order_index<br/>summary/bibliography/faqs jsonb]
+	LV[Levels<br/>id<br/>trail_id<br/>slug<br/>title<br/>short_title<br/>order_index]
+
+	M[Missions<br/>id<br/>level_id<br/>slug<br/>title<br/>emblem<br/>theory<br/>has_minigame<br/>order_index<br/>summary/bibliography/faqs jsonb]
 
 	Q[Mission Questions<br/>id<br/>mission_id<br/>slug<br/>kind main/extra<br/>prompt<br/>explanation<br/>max_reward_shells<br/>order_index]
 
@@ -93,7 +95,8 @@ flowchart LR
 	U --> UI
 	U --> B
 
-	T --> M
+	T --> LV
+	LV --> M
 	M --> Q
 	M --> C
 	Q --> O
@@ -108,7 +111,7 @@ flowchart LR
 
 - **`users`**: Guarda o perfil base. `email` é obrigatório e único; `birth_date` é opcional. Não guarda saldo de conchas — não há `shell_balance` na tabela; o saldo é sempre derivado ao vivo do `shell_ledger` (última linha, `balance_after`), nunca cacheado, pra evitar divergência entre esse valor e o histórico.
 - **`user_avatar_settings`**: Concentra o visual ativo do usuário — `active_frame`/`active_accessory`/`active_color` referenciam `user_inventory`, garantindo que só é possível equipar item já possuído.
-- **`trails` e `missions`**: Organizam o conteúdo pedagógico. `missions` carrega `summary`/`bibliography`/`faqs` como JSONB por serem conteúdo esparso (só ~3 das 29 missões usam cada um). Não guarda `icon` nem HTML de minigame — são decisão de apresentação, responsabilidade do front.
+- **`trails`, `levels` e `missions`**: Organizam o conteúdo pedagógico em três camadas. `trails` é a trilha em si (produto, ex.: "Trilha POO"). `levels` agrupa missões dentro de uma trilha (ex.: "Nível 1 — Fundamentos"); `levels.order_index` é único **por trilha** (`UNIQUE (trail_id, order_index)`), não globalmente. `missions` referencia `levels` via `level_id` e carrega `summary`/`bibliography`/`faqs` como JSONB por serem conteúdo esparso (só ~3 das 29 missões usam cada um). Não guarda `icon` nem HTML de minigame — são decisão de apresentação, responsabilidade do front.
 - **`mission_questions`** (principal ou extra, via `kind`) e **`mission_question_options`**: Armazenam a estrutura das questões. `order_index` é obrigatório porque o front valida a resposta certa pelo índice da opção, não pelo texto. `max_reward_shells` vive na pergunta, porque a principal e os extras têm curvas de recompensa diferentes.
 - **`user_mission_completions`**: Registra a conclusão de uma missão separadamente das submissões (necessário porque uma missão pode ser concluída sem pergunta principal).
 - **`user_submissions`**: Log de cada tentativa (uma linha por tentativa, certa ou errada). `attempt_number` decide a recompensa.
@@ -116,7 +119,7 @@ flowchart LR
 - **`shop_items` e `user_inventory`**: Representam a loja e os itens desbloqueados.
 - **`bookmarks`**: Salva o ponto de retomada do usuário em uma missão.
 
-> Modelo fechado na Fase 2.1.5, validado linha a linha contra o frontend (`Abstractio`).
+> Modelo fechado na Fase 2.1.5 e corrigido posteriormente para incluir a camada de `trails` (a validação inicial contra o frontend `Abstractio` havia modelado apenas níveis, hoje `levels`, sem a trilha que os agrupa).
 
 ## Como rodar localmente
 

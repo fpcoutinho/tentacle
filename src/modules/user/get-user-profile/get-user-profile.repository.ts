@@ -1,5 +1,5 @@
 import { pool } from '../../../db/client.ts'
-import { trailsCompletedQuery } from '../user.repository.ts'
+import { levelsCompletedQuery } from '../user.repository.ts'
 
 export type UserProfileRow = {
   id: string
@@ -11,7 +11,7 @@ export type UserProfileRow = {
   active_color: number | null
   missions_completed: number
   total_missions: number
-  trails_completed: number
+  levels_completed: number
 }
 
 export async function findUserProfileById(id: string): Promise<UserProfileRow | undefined> {
@@ -26,7 +26,7 @@ export async function findUserProfileById(id: string): Promise<UserProfileRow | 
        a.active_color,
        (SELECT COUNT(*)::int FROM user_mission_completions umc WHERE umc.user_id = u.id) AS missions_completed,
        (SELECT COUNT(*)::int FROM missions) AS total_missions,
-       (${trailsCompletedQuery()}) AS trails_completed
+       (${levelsCompletedQuery()}) AS levels_completed
      FROM users u
      LEFT JOIN user_avatar_settings a ON a.user_id = u.id
      WHERE u.id = $1`,

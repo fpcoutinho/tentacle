@@ -1,6 +1,6 @@
 import { RANK_THRESHOLDS, RANKS } from './user.constants.ts'
 
-export function resolveRank(trailsCompleted: number): {
+export function resolveRank(levelsCompleted: number): {
   rank: (typeof RANKS)[number]
   level: number
   avatarsUnlocked: number
@@ -13,7 +13,7 @@ export function resolveRank(trailsCompleted: number): {
 
   RANKS.forEach((rank, index) => {
     const threshold = RANK_THRESHOLDS[index] ?? 0
-    if (trailsCompleted >= threshold) {
+    if (levelsCompleted >= threshold) {
       current = { rank, level: index + 1, avatarsUnlocked: index + 1 }
     }
   })

@@ -17,7 +17,7 @@ export const service = {
       throw new APIError(HTTP_STATUS.NOT_FOUND, 'not_found', 'User profile not found')
     }
 
-    const { rank, level, avatarsUnlocked } = resolveRank(row.trails_completed)
+    const { rank, level, avatarsUnlocked } = resolveRank(row.levels_completed)
 
     return { ...row, rank, level, avatars_unlocked: avatarsUnlocked }
   }
