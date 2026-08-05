@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "39f4aa1b-67a9-4635-b0b9-dc5aa8430d67",
+    "_postman_id": "d6fe7aaa-9002-4ce2-9937-387dc2d3d916",
     "name": "tentacle",
     "description": "Colecao dos endpoints do backend Tentacle. Auth global via Bearer token (funciona tanto com Firebase quanto com o dummy auth quando FIREBASE_AUTH_ENABLED=false).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -26,8 +26,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
             }
           },
           "response": []
@@ -48,8 +54,15 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/inventory",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user", "inventory"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "inventory"
+              ]
             }
           },
           "response": []
@@ -70,8 +83,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
             }
           },
           "response": []
@@ -88,12 +107,20 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"slot\": \"frame\",\n  \"id\": \"1\"\n}"
+              "raw": "{\n  \"slot\": \"frame\",\n  \"itemId\": \"1\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/avatar/active",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user", "avatar", "active"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "avatar",
+                "active"
+              ]
             }
           },
           "response": []
@@ -110,11 +137,80 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get User",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/user",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "user"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "213"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:52:14 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"name\": \"Appa Nilton\",\n    \"gender\": \"male\",\n    \"missionsCompleted\": 0,\n    \"totalMissions\": 29,\n    \"rank\": {\n        \"level\": 1,\n        \"patent\": \"Polvinho\"\n    },\n    \"avatarIdx\": 0,\n    \"avatarsUnlocked\": 1,\n    \"activeFrame\": null,\n    \"activeAccessory\": null,\n    \"activeColor\": null\n}"
+            }
+          ]
         },
         {
           "name": "Get User Balance",
@@ -128,11 +224,82 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/balance",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user", "balance"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "balance"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get User Balance",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/user/balance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "user",
+                    "balance"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "56"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:52:37 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"raw\": \"0\",\n    \"formatted\": \"0 conchas\",\n    \"currency\": \"conchas\"\n}"
+            }
+          ]
         },
         {
           "name": "Get User Inventory",
@@ -146,11 +313,82 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/inventory",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user", "inventory"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "inventory"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get User Inventory",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/user/inventory",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "user",
+                    "inventory"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "12"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:52:44 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"items\": []\n}"
+            }
+          ]
         },
         {
           "name": "Get User Trail Progress",
@@ -164,11 +402,180 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/trails/1/progress",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "user", "trails", "1", "progress"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "trails",
+                "1",
+                "progress"
+              ]
+            },
+            "description": "progress.missions[] traz shellsEarned/extrasCompleted por missao (29 de uma vez), pra telas que renderizam a trilha inteira sem N+1 chamadas."
+          },
+          "response": [
+            {
+              "name": "Get User Trail Progress",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/user/trails/1/progress",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "user",
+                    "trails",
+                    "1",
+                    "progress"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "4601"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:50:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"progress\": {\n        \"trailId\": 1,\n        \"trailTitle\": \"Trilha POO\",\n        \"missionsCompleted\": 0,\n        \"completedMissionIds\": [],\n        \"totalMissions\": 29,\n        \"percent\": 0,\n        \"levels\": [\n            {\n                \"levelId\": 1,\n                \"shortTitle\": \"Fundamentos\",\n                \"orderIndex\": 1,\n                \"missionsCompleted\": 0,\n                \"totalMissions\": 8,\n                \"percent\": 0,\n                \"missions\": [\n                    {\n                        \"missionId\": 1,\n                        \"missionSlug\": \"1-0\",\n                        \"missionTitle\": \"Antes de começar\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 2,\n                        \"missionSlug\": \"1-1\",\n                        \"missionTitle\": \"O que é POO?\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 3,\n                        \"missionSlug\": \"1-2\",\n                        \"missionTitle\": \"Objeto\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 4,\n                        \"missionSlug\": \"1-3\",\n                        \"missionTitle\": \"Atributos\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 5,\n                        \"missionSlug\": \"1-4\",\n                        \"missionTitle\": \"Métodos\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 6,\n                        \"missionSlug\": \"1-5\",\n                        \"missionTitle\": \"Classe\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 7,\n                        \"missionSlug\": \"1-6\",\n                        \"missionTitle\": \"Construtor\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    },\n                    {\n                        \"missionId\": 8,\n                        \"missionSlug\": \"1-7\",\n                        \"missionTitle\": \"Resumo\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 6\n                    }\n                ]\n            },\n            {\n                \"levelId\": 2,\n                \"shortTitle\": \"Pilares\",\n                \"orderIndex\": 2,\n                \"missionsCompleted\": 0,\n                \"totalMissions\": 6,\n                \"percent\": 0,\n                \"missions\": [\n                    {\n                        \"missionId\": 9,\n                        \"missionSlug\": \"2-1\",\n                        \"missionTitle\": \"Introdução ao nível\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 10,\n                        \"missionSlug\": \"2-2\",\n                        \"missionTitle\": \"Abstração\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 11,\n                        \"missionSlug\": \"2-3\",\n                        \"missionTitle\": \"Encapsulamento\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 12,\n                        \"missionSlug\": \"2-4\",\n                        \"missionTitle\": \"Herança\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 13,\n                        \"missionSlug\": \"2-5\",\n                        \"missionTitle\": \"Polimorfismo\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 14,\n                        \"missionSlug\": \"2-6\",\n                        \"missionTitle\": \"Resumo\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    }\n                ]\n            },\n            {\n                \"levelId\": 3,\n                \"shortTitle\": \"Relações\",\n                \"orderIndex\": 3,\n                \"missionsCompleted\": 0,\n                \"totalMissions\": 8,\n                \"percent\": 0,\n                \"missions\": [\n                    {\n                        \"missionId\": 15,\n                        \"missionSlug\": \"3-1\",\n                        \"missionTitle\": \"Introdução ao nível\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 16,\n                        \"missionSlug\": \"3-2\",\n                        \"missionTitle\": \"Sobrescrita\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 17,\n                        \"missionSlug\": \"3-3\",\n                        \"missionTitle\": \"Sobrecarga\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 18,\n                        \"missionSlug\": \"3-4\",\n                        \"missionTitle\": \"Classes Abstratas\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 19,\n                        \"missionSlug\": \"3-5\",\n                        \"missionTitle\": \"Interfaces\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 20,\n                        \"missionSlug\": \"3-6\",\n                        \"missionTitle\": \"Associação\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 21,\n                        \"missionSlug\": \"3-7\",\n                        \"missionTitle\": \"Agregação e Composição\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 22,\n                        \"missionSlug\": \"3-8\",\n                        \"missionTitle\": \"Resumo\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    }\n                ]\n            },\n            {\n                \"levelId\": 4,\n                \"shortTitle\": \"Arquitetura\",\n                \"orderIndex\": 4,\n                \"missionsCompleted\": 0,\n                \"totalMissions\": 7,\n                \"percent\": 0,\n                \"missions\": [\n                    {\n                        \"missionId\": 23,\n                        \"missionSlug\": \"4-1\",\n                        \"missionTitle\": \"Introdução ao nível\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 24,\n                        \"missionSlug\": \"4-2\",\n                        \"missionTitle\": \"Coesão\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 25,\n                        \"missionSlug\": \"4-3\",\n                        \"missionTitle\": \"Acoplamento\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 26,\n                        \"missionSlug\": \"4-4\",\n                        \"missionTitle\": \"SOLID\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 27,\n                        \"missionSlug\": \"4-5\",\n                        \"missionTitle\": \"Generics\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 28,\n                        \"missionSlug\": \"4-6\",\n                        \"missionTitle\": \"Design Patterns\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    },\n                    {\n                        \"missionId\": 29,\n                        \"missionSlug\": \"4-7\",\n                        \"missionTitle\": \"Resumo\",\n                        \"completed\": false,\n                        \"shellsEarned\": 0,\n                        \"extrasCompleted\": 0,\n                        \"totalExtras\": 0\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Mission Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user/missions/1-1/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "missions",
+                "1-1",
+                "progress"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get Mission Progress",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/user/missions/1-1/progress",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "user",
+                    "missions",
+                    "1-1",
+                    "progress"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "910"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:52:53 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"progress\": {\n        \"missionId\": 2,\n        \"missionSlug\": \"1-1\",\n        \"completed\": false,\n        \"shellsEarned\": 0,\n        \"questions\": [\n            {\n                \"questionId\": 1,\n                \"questionSlug\": \"1-1-main\",\n                \"kind\": \"main\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 2,\n                \"questionSlug\": \"1-1-e1\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 3,\n                \"questionSlug\": \"1-1-e2\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 4,\n                \"questionSlug\": \"1-1-e3\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 5,\n                \"questionSlug\": \"1-1-e4\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 6,\n                \"questionSlug\": \"1-1-e5\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            },\n            {\n                \"questionId\": 7,\n                \"questionSlug\": \"1-1-e6\",\n                \"kind\": \"extra\",\n                \"attemptCount\": 0,\n                \"answeredCorrectly\": false,\n                \"earnedShells\": 0\n            }\n        ]\n    }\n}"
+            }
+          ]
         }
       ]
     },
@@ -182,11 +589,75 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trails"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "trails"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get Trails",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/trails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "trails"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "146"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:53:05 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"trails\": [\n        {\n            \"id\": 1,\n            \"slug\": \"poo\",\n            \"title\": \"Trilha POO\",\n            \"subtitle\": \"Programação Orientada a Objetos em Python\",\n            \"shortTitle\": \"POO\",\n            \"orderIndex\": 1\n        }\n    ]\n}"
+            }
+          ]
         },
         {
           "name": "Get Trail Detail",
@@ -195,8 +666,377 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails/detail/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "trails", "detail", "1"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "trails",
+                "detail",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Trail Detail",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/trails/detail/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "trails",
+                    "detail",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "4548"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:53:41 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"trail\": {\n        \"id\": 1,\n        \"slug\": \"poo\",\n        \"title\": \"Trilha POO\",\n        \"subtitle\": \"Programação Orientada a Objetos em Python\",\n        \"shortTitle\": \"POO\",\n        \"orderIndex\": 1,\n        \"totalMissions\": 29,\n        \"levels\": [\n            {\n                \"id\": 1,\n                \"slug\": \"fundamentos\",\n                \"title\": \"Nível 1 — Fundamentos: O despertar do Polvinho\",\n                \"shortTitle\": \"Fundamentos\",\n                \"orderIndex\": 1,\n                \"missions\": [\n                    {\n                        \"id\": 1,\n                        \"slug\": \"1-0\",\n                        \"title\": \"Antes de começar\",\n                        \"emblem\": \"Molhando os tentáculos\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 0,\n                        \"rewardShells\": 0\n                    },\n                    {\n                        \"id\": 2,\n                        \"slug\": \"1-1\",\n                        \"title\": \"O que é POO?\",\n                        \"emblem\": \"O grande oceano\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 1,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 3,\n                        \"slug\": \"1-2\",\n                        \"title\": \"Objeto\",\n                        \"emblem\": \"Criatura Marinha\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 2,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 4,\n                        \"slug\": \"1-3\",\n                        \"title\": \"Atributos\",\n                        \"emblem\": \"Pintor(a) de Tentáculos\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 3,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 5,\n                        \"slug\": \"1-4\",\n                        \"title\": \"Métodos\",\n                        \"emblem\": \"Coreógrafo(a) de Polvos\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 4,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 6,\n                        \"slug\": \"1-5\",\n                        \"title\": \"Classe\",\n                        \"emblem\": \"Modelador Mágico\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 5,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 7,\n                        \"slug\": \"1-6\",\n                        \"title\": \"Construtor\",\n                        \"emblem\": \"O Nascimento\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 6,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 8,\n                        \"slug\": \"1-7\",\n                        \"title\": \"Resumo\",\n                        \"emblem\": \"Polvo Graduado\",\n                        \"hasMinigame\": true,\n                        \"orderIndex\": 7,\n                        \"rewardShells\": 12\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"slug\": \"pilares\",\n                \"title\": \"Nível 2 — Pilares: As leis do oceano\",\n                \"shortTitle\": \"Pilares\",\n                \"orderIndex\": 2,\n                \"missions\": [\n                    {\n                        \"id\": 9,\n                        \"slug\": \"2-1\",\n                        \"title\": \"Introdução ao nível\",\n                        \"emblem\": \"Preparando o Submarino\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 0,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 10,\n                        \"slug\": \"2-2\",\n                        \"title\": \"Abstração\",\n                        \"emblem\": \"Rei/Rainha da Abstração\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 1,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 11,\n                        \"slug\": \"2-3\",\n                        \"title\": \"Encapsulamento\",\n                        \"emblem\": \"Encapsulador(a) de Pérolas\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 2,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 12,\n                        \"slug\": \"2-4\",\n                        \"title\": \"Herança\",\n                        \"emblem\": \"Lorde dos Cefalópodes\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 3,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 13,\n                        \"slug\": \"2-5\",\n                        \"title\": \"Polimorfismo\",\n                        \"emblem\": \"Metamorfo(a) das Marés\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 4,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 14,\n                        \"slug\": \"2-6\",\n                        \"title\": \"Resumo\",\n                        \"emblem\": \"Guardião/Guardiã dos Pilares\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 5,\n                        \"rewardShells\": 12\n                    }\n                ]\n            },\n            {\n                \"id\": 3,\n                \"slug\": \"relacoes\",\n                \"title\": \"Nível 3 — Relações: A sociedade dos objetos\",\n                \"shortTitle\": \"Relações\",\n                \"orderIndex\": 3,\n                \"missions\": [\n                    {\n                        \"id\": 15,\n                        \"slug\": \"3-1\",\n                        \"title\": \"Introdução ao nível\",\n                        \"emblem\": \"O Canto das Baleias\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 0,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 16,\n                        \"slug\": \"3-2\",\n                        \"title\": \"Sobrescrita\",\n                        \"emblem\": \"Sobrescritor(a) de Ondas\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 1,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 17,\n                        \"slug\": \"3-3\",\n                        \"title\": \"Sobrecarga\",\n                        \"emblem\": \"Titã da Sobrecarga\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 2,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 18,\n                        \"slug\": \"3-4\",\n                        \"title\": \"Classes Abstratas\",\n                        \"emblem\": \"Fantasma do Abismo\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 3,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 19,\n                        \"slug\": \"3-5\",\n                        \"title\": \"Interfaces\",\n                        \"emblem\": \"Embaixador(a) dos Corais\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 4,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 20,\n                        \"slug\": \"3-6\",\n                        \"title\": \"Associação\",\n                        \"emblem\": \"O Elo Marinho\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 5,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 21,\n                        \"slug\": \"3-7\",\n                        \"title\": \"Agregação e Composição\",\n                        \"emblem\": \"Arquiteto(a) do Ecossistema\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 6,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 22,\n                        \"slug\": \"3-8\",\n                        \"title\": \"Resumo\",\n                        \"emblem\": \"Mestre dos Mares\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 7,\n                        \"rewardShells\": 12\n                    }\n                ]\n            },\n            {\n                \"id\": 4,\n                \"slug\": \"arquitetura\",\n                \"title\": \"Nível 4 — Arquitetura: a engenharia submarina\",\n                \"shortTitle\": \"Arquitetura\",\n                \"orderIndex\": 4,\n                \"missions\": [\n                    {\n                        \"id\": 23,\n                        \"slug\": \"4-1\",\n                        \"title\": \"Introdução ao nível\",\n                        \"emblem\": \"O Despertar do Kraken\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 0,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 24,\n                        \"slug\": \"4-2\",\n                        \"title\": \"Coesão\",\n                        \"emblem\": \"O Foco do Leviatã\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 1,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 25,\n                        \"slug\": \"4-3\",\n                        \"title\": \"Acoplamento\",\n                        \"emblem\": \"Desacorrentador(a) de Tentáculos\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 2,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 26,\n                        \"slug\": \"4-4\",\n                        \"title\": \"SOLID\",\n                        \"emblem\": \"O Códice S.O.L.I.D.o\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 3,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 27,\n                        \"slug\": \"4-5\",\n                        \"title\": \"Generics\",\n                        \"emblem\": \"Devorador(a) de Tipos\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 4,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 28,\n                        \"slug\": \"4-6\",\n                        \"title\": \"Design Patterns\",\n                        \"emblem\": \"Engenheiro(a) das Fossas Marianas\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 5,\n                        \"rewardShells\": 12\n                    },\n                    {\n                        \"id\": 29,\n                        \"slug\": \"4-7\",\n                        \"title\": \"Resumo\",\n                        \"emblem\": \"O(A) Kraken do Código\",\n                        \"hasMinigame\": false,\n                        \"orderIndex\": 6,\n                        \"rewardShells\": 12\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Missions",
+      "item": [
+        {
+          "name": "Get Mission",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Mission",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/missions/1-2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "missions",
+                    "1-2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "10511"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 10:13:27 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"mission\": {\n        \"id\": 3,\n        \"slug\": \"1-2\",\n        \"title\": \"Objeto\",\n        \"emblem\": \"Criatura Marinha\",\n        \"theory\": \"\\n## Otto encontra Ada\\n\\nOtto está em expedição pelo oceano quando avista um polvo que não conhecia... Ada.\\n\\n{{ada-card-objeto}}\\n\\nEla tem uma cor, um tamanho e um número de tentáculos. E sabe fazer coisas – nada, se camufla, solta tinta.\\n\\nPara Otto, Ada é uma \\\"caixa-preta\\\": ele consegue observá-la e interagir com ela mesmo sem conhecer todos os seus detalhes.\\n\\nIsso é um <destaque>objeto</destaque>: uma <destaque-reto>entidade</destaque-reto> (algo que existe de forma independente) com características próprias e ações que sabe executar.\\n\\n{{duvida-entidade-definicao}}\\n\\n<conceito note=\\\"adapt. Weisfeld, 2019\\\"><strong>Objeto</strong>: entidade que reúne, de forma inseparável, <destaque-marker>características</destaque-marker> próprias e as <destaque-marker>ações</destaque-marker> que é capaz de executar.</conceito>\\n\\n---\\n\\n## Cada objeto é único\\n\\nNo oceano de Otto há outros polvos. Cada um é uma entidade separada – mesma natureza, dados completamente diferentes.\\n\\nAda é rosa com 8 tentáculos. Mas no oceano há outros polvos – cada um com sua própria cor e seus próprios dados.\\n\\nSe você pedir para o Python te mostrar a estrutura interna da \\\"caixa-preta\\\" que é o objeto, ele vai te mostrar algo parecido com isso:\\n\\n```python-simplificado\\nada = {\\n    \\\"nome\\\": \\\"Ada\\\",\\n    \\\"cor\\\": \\\"rosa\\\",\\n    \\\"num_tentaculos\\\": 8\\n}\\n```\\n\\nOu seja, ele vai te mostrar a estrutura essencial de um objeto no universo da POO – o seu \\\"nome\\\" (que chamamos de \\\"rótulo\\\") ('ada') e as chaves contendo suas características. Guarde esse formato: rótulo + chaves + características.\\n\\nMudar algo em Ada não muda os outros. Cada objeto guarda seus próprios dados de forma independente – ou seja, se Ada mudar de cor agora, os outros polvos continuam exatamente como estavam.\\n\\nMas o que torna Ada *ela mesma* – e não qualquer outro polvo?\\n\\nVejamos a seguir o que acontece quando dois objetos carregam exatamente os mesmos dados:\\n\\n```python-simplificado\\nada   = {\\\"nome\\\": \\\"Ada\\\", \\\"cor\\\": \\\"rosa\\\", \\\"num_tentaculos\\\": 8}\\noutra = {\\\"nome\\\": \\\"Ada\\\", \\\"cor\\\": \\\"rosa\\\", \\\"num_tentaculos\\\": 8}\\n```\\n\\nO que será que aconteceria se perguntássemos ao Python qual é o endereço de memória de cada um? Será que, tendo as mesmas características, o Python englobaria os dois em um só? Ou criaria duas variáveis com endereços diferentes? Veredito: se temos dois objetos distintos, então cada um recebe um endereço único na memória. Veja:\\n\\n```python-simplificado\\nprint(id(ada))    # 4371856896\\nprint(id(outra))  # 4371857024\\n```\\n\\nEndereços diferentes – entidades diferentes. Ou seja: mesmo com dados idênticos, Ada e `outra` são dois objetos distintos. Agora a comparação:\\n\\n```python-simplificado\\nprint(ada == outra)  # True  – mesmas características\\nprint(ada is outra)  # False – entidades distintas\\n```\\n\\n`==` compara os dados – ou seja, pergunta \\\"têm o mesmo conteúdo?\\\". `is` compara a identidade – isto é, pergunta \\\"são a mesma coisa?\\\". Mesmo com dados idênticos, `ada` e `outra` são entidades distintas. Ada é Ada.\\n\\n---\\n\\n## Objetos estão em todo lugar\\n\\n*Você já pensa em objetos sem perceber.*\\n\\nOtto olha para Ada e percebe: o que ela é – uma entidade com características e ações – não é exclusividade do oceano.\\n\\nUm celular tem características (modelo, bateria) e ações (ligar, tirar foto). Uma conta bancária tem características (saldo, titular) e ações (depositar, sacar). O princípio é o mesmo – só o contexto muda.\\n\\nE é exatamente esse princípio que aparece no mercado de trabalho. Objetos como `ContaBancaria`, `Usuario` e `Produto` são tão reais quanto Ada – têm características próprias, existem de forma independente e cada um carrega seus próprios dados.\\n\\nVeja como o padrão se repete:\\n\\n| | Ada | ContaBancaria |\\n|---|---|---|\\n| **Características** | cor, tentáculos | saldo, titular |\\n| **Ações** | nadar, camuflar, soltar tinta | depositar, sacar, consultar saldo |\\n\\nO oceano é uma metáfora. Os objetos são reais.\\n\\n---\\n\\n## Os três elementos de todo objeto\\n\\nNão importa se é um polvo ou uma conta bancária – todo objeto pode ser descrito pelos mesmos três elementos:\\n\\n| Elemento | O que é | Ada | ContaBancaria |\\n|---|---|---|---|\\n| **Identidade** | O que a torna única | Ada é uma entidade única | cada conta é única |\\n| **Características** | Os dados que carrega | cor: rosa, tentáculos: 8 | saldo, titular |\\n| **Ações** | O que ela sabe fazer | nadar, camuflar, soltar tinta | depositar, sacar, consultar saldo |\\n\\n<destaque-marker>Identidade, características e ações</destaque-marker>. Onde houver um objeto, esses três estarão presentes.\\n\\n---\\n\\n## De onde Ada veio?\\n\\nOtto observa, interage, anota. Mas uma pergunta fica no ar:\\n\\n*Quem definiu que Ada seria rosa? Que teria 8 tentáculos? Que saberia nadar?*\\n\\nA resposta ainda é um mistério. A caixa preta ainda está fechada.\\n\\nIsso você descobre na **Missão 5**.\\n\",\n        \"hasMinigame\": false,\n        \"summary\": [\n            \"**Objeto** – entidade que reúne, de forma inseparável, características e ações\",\n            \"**Identidade** – cada objeto existe de forma única na memória, distinguível de qualquer outro\",\n            \"**Características** – os dados que o objeto carrega\",\n            \"**Ações** – o que o objeto sabe executar\",\n            \"**Caixa preta** – você pode observar e interagir com um objeto sem conhecer seus detalhes internos\"\n        ],\n        \"bibliography\": [\n            {\n                \"note\": \"definição de objeto como entidade com dados e comportamentos; conceito de atributos e métodos\",\n                \"year\": 2019,\n                \"title\": \"The Object-Oriented Thought Process\",\n                \"author\": \"Weisfeld, M.\",\n                \"location\": \"5. ed. cap. 1, p. 6–14\"\n            },\n            {\n                \"note\": \"princípio Objects First: observar e interagir com objetos antes de qualquer formalização\",\n                \"year\": 2003,\n                \"title\": \"The BlueJ System and its Pedagogy\",\n                \"author\": \"Kölling, M., Quig, B., Patterson, A., Rosenberg, J.\",\n                \"location\": \"Computer Science Education, 13(4), p. 249–268\"\n            }\n        ],\n        \"faqs\": {\n            \"duvida-entidade-definicao\": {\n                \"pergunta\": \"O que significa 'entidade'?\",\n                \"resposta\": \"'Entidade' é um termo central em POO e nos diagramas UML – você vai encontrá-lo com frequência. Significa algo que existe de forma independente, com identidade própria, distinguível de tudo o mais. Ada é uma entidade: ela existe e é única.\"\n            }\n        },\n        \"orderIndex\": 2,\n        \"questions\": [\n            {\n                \"id\": 8,\n                \"slug\": \"1-2-main\",\n                \"kind\": \"main\",\n                \"prompt\": \"Em um sistema de loja online, um produto tem nome, preço e estoque, e pode ser vendido e ter o estoque atualizado. Ele é um objeto porque:\",\n                \"maxRewardShells\": 12,\n                \"orderIndex\": 0,\n                \"options\": [\n                    {\n                        \"id\": 29,\n                        \"label\": \"Reúne características próprias e ações que sabe executar\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 30,\n                        \"label\": \"Tem um nome que o identifica dentro do sistema\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 31,\n                        \"label\": \"Está registrado em um banco de dados da loja\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 32,\n                        \"label\": \"Possui mais de uma informação cadastrada\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 9,\n                \"slug\": \"1-2-e1\",\n                \"kind\": \"extra\",\n                \"prompt\": \"A missão descreve um objeto como uma \\\"caixa preta\\\". Isso significa que:\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 1,\n                \"options\": [\n                    {\n                        \"id\": 33,\n                        \"label\": \"Um objeto só pode ser usado por quem conhece seus detalhes internos\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 34,\n                        \"label\": \"Um objeto não possui características que possam ser observadas\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 35,\n                        \"label\": \"Os dados de um objeto ficam ocultos e nunca podem ser acessados\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 36,\n                        \"label\": \"É possível usar um objeto sem saber como ele funciona por dentro\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 10,\n                \"slug\": \"1-2-e2\",\n                \"kind\": \"extra\",\n                \"prompt\": \"Quais são os três elementos que todo objeto possui, independentemente do que ele representa?\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 2,\n                \"options\": [\n                    {\n                        \"id\": 37,\n                        \"label\": \"Identidade, características e ações\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 38,\n                        \"label\": \"Entrada, processamento e saída\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 39,\n                        \"label\": \"Criação, estado e destruição\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 40,\n                        \"label\": \"Nome, tipo e valor\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 11,\n                \"slug\": \"1-2-e3\",\n                \"kind\": \"extra\",\n                \"prompt\": \"Dois objetos criados com a mesma estrutura existem de forma:\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 3,\n                \"options\": [\n                    {\n                        \"id\": 41,\n                        \"label\": \"Compartilhada — alterações em um objeto refletem no outro\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 42,\n                        \"label\": \"Independente — cada objeto carrega seus próprios dados\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 43,\n                        \"label\": \"Dependente — um objeto sempre acompanha as mudanças do outro\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 44,\n                        \"label\": \"Sincronizada — os dados de todos são mantidos iguais automaticamente\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 12,\n                \"slug\": \"1-2-e4\",\n                \"kind\": \"extra\",\n                \"prompt\": \"Uma biblioteca gerencia livros. Cada livro tem título e número de páginas, e pode ser emprestado ou devolvido. No contexto de POO, \\\"ser emprestado\\\" é um exemplo de:\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 4,\n                \"options\": [\n                    {\n                        \"id\": 45,\n                        \"label\": \"Uma característica que o livro possui\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 46,\n                        \"label\": \"A identidade que torna o livro único\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 47,\n                        \"label\": \"Um dado compartilhado por todos os livros do sistema\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 48,\n                        \"label\": \"Uma ação que o objeto Livro sabe executar\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 13,\n                \"slug\": \"1-2-e5\",\n                \"kind\": \"extra\",\n                \"prompt\": \"Imagine dois carros idênticos, que saíram da mesma fábrica com mesmo modelo, motor e cor. No contexto de objetos, podemos afirmar que:\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 5,\n                \"options\": [\n                    {\n                        \"id\": 49,\n                        \"label\": \"Eles são objetos distintos, cada um com sua própria identidade.\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 50,\n                        \"label\": \"Eles são o mesmo objeto, pois têm origem e características idênticas.\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 51,\n                        \"label\": \"Eles são objetos síncronos, o que faz suas ações acontecerem juntas.\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 52,\n                        \"label\": \"Eles compartilham a mesma identidade e o mesmo endereço na memória.\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            },\n            {\n                \"id\": 14,\n                \"slug\": \"1-2-e6\",\n                \"kind\": \"extra\",\n                \"prompt\": \"Um celular (modelo, bateria; ligar, tirar foto) e uma conta bancária (saldo, titular; depositar, sacar) seguem o mesmo princípio de objeto porque:\",\n                \"maxRewardShells\": 3,\n                \"orderIndex\": 6,\n                \"options\": [\n                    {\n                        \"id\": 53,\n                        \"label\": \"São implementados na mesma linguagem de programação\",\n                        \"orderIndex\": 0\n                    },\n                    {\n                        \"id\": 54,\n                        \"label\": \"Ambos possuem características próprias e ações que sabem executar\",\n                        \"orderIndex\": 1\n                    },\n                    {\n                        \"id\": 55,\n                        \"label\": \"Têm o mesmo número de características e ações\",\n                        \"orderIndex\": 2\n                    },\n                    {\n                        \"id\": 56,\n                        \"label\": \"Pertencem ao mesmo sistema de software\",\n                        \"orderIndex\": 3\n                    }\n                ]\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Mission Bookmark",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "bookmark"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Mission Bookmark",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "missions",
+                    "1-1",
+                    "bookmark"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "17"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:54:09 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"bookmark\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Mission Submission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "description": "Opcional. Repetir a mesma chave devolve a submissao ja gravada, sem premiar de novo."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"answerOptionId\": 5 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/questions/1-1-main/submissions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "questions",
+                "1-1-main",
+                "submissions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Mission Completion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "completions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upsert Mission Bookmark",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"scrollY\": 420,\n    \"sectionTitle\": \"Mas afinal, o que e a Orientacao a Objetos?\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "bookmark"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Mission Completion",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/completions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "completions"
+              ]
+            },
+            "description": "Nao estorna conchas ja ganhas na missao, so remove a marca de concluida."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Mission Bookmark",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "missions",
+                "1-1",
+                "bookmark"
+              ]
             }
           },
           "response": []
@@ -213,8 +1053,15 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/shop/items?category=frame",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "shop", "items"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "shop",
+                "items"
+              ],
               "query": [
                 {
                   "key": "limit",
@@ -236,7 +1083,84 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Get Shop Items",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/shop/items?category=frame",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "shop",
+                    "items"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "5",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "offeset",
+                      "value": "0",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "category",
+                      "value": "frame"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "449"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 05 Aug 2026 09:54:19 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"items\": [\n        {\n            \"id\": 1,\n            \"itemType\": \"frame\",\n            \"code\": \"bolhas\",\n            \"name\": \"Bolhas\",\n            \"priceShells\": 50\n        },\n        {\n            \"id\": 2,\n            \"itemType\": \"frame\",\n            \"code\": \"mare\",\n            \"name\": \"Maré Alta\",\n            \"priceShells\": 50\n        },\n        {\n            \"id\": 3,\n            \"itemType\": \"frame\",\n            \"code\": \"kraken\",\n            \"name\": \"Kraken\",\n            \"priceShells\": 50\n        },\n        {\n            \"id\": 4,\n            \"itemType\": \"frame\",\n            \"code\": \"coral\",\n            \"name\": \"Coral\",\n            \"priceShells\": 50\n        },\n        {\n            \"id\": 5,\n            \"itemType\": \"frame\",\n            \"code\": \"aurora\",\n            \"name\": \"Aurora Boreal\",\n            \"priceShells\": 50\n        }\n    ],\n    \"pagination\": {\n        \"limit\": 5,\n        \"offset\": 0,\n        \"total\": 5\n    }\n}"
+            }
+          ]
         }
       ]
     },
@@ -250,8 +1174,12 @@
         "header": [],
         "url": {
           "raw": "{{baseUrl}}/health",
-          "host": ["{{baseUrl}}"],
-          "path": ["health"]
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
         }
       },
       "response": []
@@ -274,7 +1202,9 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [""]
+        "exec": [
+          ""
+        ]
       }
     },
     {
@@ -283,7 +1213,9 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [""]
+        "exec": [
+          ""
+        ]
       }
     }
   ],
