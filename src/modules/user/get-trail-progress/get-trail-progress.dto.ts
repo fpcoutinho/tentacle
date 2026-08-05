@@ -22,6 +22,15 @@ export const dto = {
             totalMissions: level.total_missions,
             percent: level.percent
           })),
+          missions: result.missions.map((mission) => ({
+            missionId: mission.mission_id,
+            missionSlug: mission.mission_slug,
+            levelId: mission.level_id,
+            completed: mission.completed,
+            shellsEarned: mission.shells_earned,
+            extrasCompleted: mission.extras_completed,
+            totalExtras: mission.total_extras
+          })),
           completedMissionIds: result.completed_mission_ids
         }
       })

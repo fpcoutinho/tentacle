@@ -42,3 +42,56 @@ export async function findCompletedMissionIdsByTrailId(
   )
   return result.rows.map((row) => row.mission_id)
 }
+
+export type MissionProgressRow = {
+  mission_id: number
+  mission_slug: string
+  level_id: number
+  completed: boolean
+  shells_earned: number
+  extras_completed: number
+  total_extras: number
+}
+
+// Agregado por missão pra telas que renderizam as 29 missões de uma vez
+// (Trilha, Conquistas, ExerciciosPage) sem precisar de uma chamada por missão.
+// Subqueries correlacionadas em vez de LEFT JOIN direto em user_submissions
+// evitam fanout (uma missão tem várias perguntas, cada uma com várias tentativas).
+export async function findMissionProgressByTrailId(
+  trailId: number,
+  userId: string
+): Promise<MissionProgressRow[]> {
+  const result = await pool.query<MissionProgressRow>(
+    `SELECT
+       m.id AS mission_id,
+       m.slug AS mission_slug,
+       m.level_id,
+       EXISTS(
+         SELECT 1 FROM user_mission_completions umc
+         WHERE umc.mission_id = m.id AND umc.user_id = $2
+       ) AS completed,
+       COALESCE(
+         (SELECT SUM(s.earned_shells) FROM user_submissions s
+          JOIN mission_questions q ON q.id = s.question_id
+          WHERE q.mission_id = m.id AND s.user_id = $2 AND s.is_correct),
+         0
+       )::int AS shells_earned,
+       COALESCE(
+         (SELECT COUNT(*) FROM mission_questions q
+          WHERE q.mission_id = m.id AND q.kind = 'extra'
+            AND EXISTS(
+              SELECT 1 FROM user_submissions s
+              WHERE s.question_id = q.id AND s.user_id = $2 AND s.is_correct
+            )),
+         0
+       )::int AS extras_completed,
+       (SELECT COUNT(*) FROM mission_questions q
+        WHERE q.mission_id = m.id AND q.kind = 'extra')::int AS total_extras
+     FROM missions m
+     JOIN levels l ON l.id = m.level_id
+     WHERE l.trail_id = $1
+     ORDER BY l.order_index, m.order_index`,
+    [trailId, userId]
+  )
+  return result.rows
+}
