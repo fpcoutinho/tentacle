@@ -4,5 +4,6 @@ dist
 npm-debug.log*
 
 /plan
+/docs/temp
 
 firebase-service-account.json
