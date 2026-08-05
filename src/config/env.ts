@@ -4,7 +4,8 @@ import { z } from 'zod'
 const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-    PORT: z.coerce.number().int().positive(),
+    RUNTIME_MODE: z.enum(['standalone', 'serverless']).default('standalone'),
+    PORT: z.coerce.number().int().positive().default(3000),
     DATABASE_URL: z.url(),
     FIREBASE_AUTH_ENABLED: z
       .enum(['true', 'false'])
