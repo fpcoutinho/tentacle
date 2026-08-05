@@ -13,30 +13,32 @@ export const schema = {
     body: z.object({
       progress: z.object({
         trailId: z.number(),
+        trailTitle: z.string(),
         missionsCompleted: z.number(),
+        completedMissionIds: z.array(z.number()),
         totalMissions: z.number(),
         percent: z.number(),
         levels: z.array(
           z.object({
             levelId: z.number(),
+            shortTitle: z.string(),
             orderIndex: z.number(),
             missionsCompleted: z.number(),
             totalMissions: z.number(),
-            percent: z.number()
+            percent: z.number(),
+            missions: z.array(
+              z.object({
+                missionId: z.number(),
+                missionSlug: z.string(),
+                missionTitle: z.string(),
+                completed: z.boolean(),
+                shellsEarned: z.number(),
+                extrasCompleted: z.number(),
+                totalExtras: z.number()
+              })
+            )
           })
-        ),
-        missions: z.array(
-          z.object({
-            missionId: z.number(),
-            missionSlug: z.string(),
-            levelId: z.number(),
-            completed: z.boolean(),
-            shellsEarned: z.number(),
-            extrasCompleted: z.number(),
-            totalExtras: z.number()
-          })
-        ),
-        completedMissionIds: z.array(z.number())
+        )
       })
     })
   }
