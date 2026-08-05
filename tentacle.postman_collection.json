@@ -26,14 +26,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user"]
             }
           },
           "response": []
@@ -54,15 +48,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/inventory",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "inventory"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "inventory"]
             }
           },
           "response": []
@@ -83,14 +70,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user"]
             }
           },
           "response": []
@@ -111,16 +92,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/avatar/active",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "avatar",
-                "active"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "avatar", "active"]
             }
           },
           "response": []
@@ -137,14 +110,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user"]
             }
           },
           "response": [
@@ -160,14 +127,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/user",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "user"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "user"]
                 }
               },
               "status": "OK",
@@ -224,15 +185,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/balance",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "balance"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "balance"]
             }
           },
           "response": [
@@ -248,15 +202,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/user/balance",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "user",
-                    "balance"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "user", "balance"]
                 }
               },
               "status": "OK",
@@ -313,15 +260,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/inventory",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "inventory"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "inventory"]
             }
           },
           "response": [
@@ -337,15 +277,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/user/inventory",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "user",
-                    "inventory"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "user", "inventory"]
                 }
               },
               "status": "OK",
@@ -402,17 +335,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/trails/1/progress",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "trails",
-                "1",
-                "progress"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "trails", "1", "progress"]
             },
             "description": "progress.missions[] traz shellsEarned/extrasCompleted por missao (29 de uma vez), pra telas que renderizam a trilha inteira sem N+1 chamadas."
           },
@@ -429,17 +353,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/user/trails/1/progress",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "user",
-                    "trails",
-                    "1",
-                    "progress"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "user", "trails", "1", "progress"]
                 }
               },
               "status": "OK",
@@ -496,17 +411,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/user/missions/1-1/progress",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "missions",
-                "1-1",
-                "progress"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "missions", "1-1", "progress"]
             }
           },
           "response": [
@@ -522,17 +428,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/user/missions/1-1/progress",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "user",
-                    "missions",
-                    "1-1",
-                    "progress"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "user", "missions", "1-1", "progress"]
                 }
               },
               "status": "OK",
@@ -589,14 +486,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "trails"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trails"]
             }
           },
           "response": [
@@ -607,14 +498,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/trails",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "trails"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "trails"]
                 }
               },
               "status": "OK",
@@ -666,16 +551,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/trails/detail/1",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "trails",
-                "detail",
-                "1"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trails", "detail", "1"]
             }
           },
           "response": [
@@ -686,16 +563,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/trails/detail/1",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "trails",
-                    "detail",
-                    "1"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "trails", "detail", "1"]
                 }
               },
               "status": "OK",
@@ -752,15 +621,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-2",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-2"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-2"]
             }
           },
           "response": [
@@ -771,15 +633,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/missions/1-2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "missions",
-                    "1-2"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "missions", "1-2"]
                 }
               },
               "status": "OK",
@@ -831,16 +686,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "bookmark"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "bookmark"]
             }
           },
           "response": [
@@ -851,16 +698,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "missions",
-                    "1-1",
-                    "bookmark"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "missions", "1-1", "bookmark"]
                 }
               },
               "status": "OK",
@@ -926,18 +765,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/questions/1-1-main/submissions",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "questions",
-                "1-1-main",
-                "submissions"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "questions", "1-1-main", "submissions"]
             }
           },
           "response": []
@@ -954,16 +783,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/completions",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "completions"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "completions"]
             }
           },
           "response": []
@@ -984,16 +805,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "bookmark"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "bookmark"]
             }
           },
           "response": []
@@ -1005,16 +818,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/completions",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "completions"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "completions"]
             },
             "description": "Nao estorna conchas ja ganhas na missao, so remove a marca de concluida."
           },
@@ -1027,16 +832,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/missions/1-1/bookmark",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "missions",
-                "1-1",
-                "bookmark"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "missions", "1-1", "bookmark"]
             }
           },
           "response": []
@@ -1053,15 +850,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/shop/items?category=frame",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "shop",
-                "items"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "shop", "items"],
               "query": [
                 {
                   "key": "limit",
@@ -1091,15 +881,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/shop/items?category=frame",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "shop",
-                    "items"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "v1", "shop", "items"],
                   "query": [
                     {
                       "key": "limit",
@@ -1174,12 +957,8 @@
         "header": [],
         "url": {
           "raw": "{{baseUrl}}/health",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "health"
-          ]
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
         }
       },
       "response": []
@@ -1202,9 +981,7 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     },
     {
@@ -1213,9 +990,7 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [
-          ""
-        ]
+        "exec": [""]
       }
     }
   ],
