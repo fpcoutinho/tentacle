@@ -2,6 +2,7 @@ import { pool } from '../../../db/client.ts'
 
 export type LevelProgressRow = {
   level_id: number
+  level_short_title: string
   level_order_index: number
   total_missions: number
   missions_completed: number
@@ -14,6 +15,7 @@ export async function findLevelProgressByTrailId(
   const result = await pool.query<LevelProgressRow>(
     `SELECT
        l.id AS level_id,
+       l.short_title AS level_short_title,
        l.order_index AS level_order_index,
        COUNT(m.id)::int AS total_missions,
        COUNT(umc.mission_id)::int AS missions_completed
@@ -46,6 +48,7 @@ export async function findCompletedMissionIdsByTrailId(
 export type MissionProgressRow = {
   mission_id: number
   mission_slug: string
+  mission_title: string
   level_id: number
   completed: boolean
   shells_earned: number
@@ -65,6 +68,7 @@ export async function findMissionProgressByTrailId(
     `SELECT
        m.id AS mission_id,
        m.slug AS mission_slug,
+       m.title AS mission_title,
        m.level_id,
        EXISTS(
          SELECT 1 FROM user_mission_completions umc

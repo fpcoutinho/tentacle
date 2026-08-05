@@ -16,6 +16,7 @@ function percentOf(completed: number, total: number): number {
 
 export type LevelProgress = {
   level_id: number
+  short_title: string
   order_index: number
   missions_completed: number
   total_missions: number
@@ -25,6 +26,7 @@ export type LevelProgress = {
 export type MissionProgress = {
   mission_id: number
   mission_slug: string
+  mission_title: string
   level_id: number
   completed: boolean
   shells_earned: number
@@ -34,6 +36,7 @@ export type MissionProgress = {
 
 export type TrailProgressResult = {
   trail_id: number
+  trail_title: string
   missions_completed: number
   total_missions: number
   percent: number
@@ -45,6 +48,7 @@ export type TrailProgressResult = {
 function toLevelProgress(row: LevelProgressRow): LevelProgress {
   return {
     level_id: row.level_id,
+    short_title: row.level_short_title,
     order_index: row.level_order_index,
     missions_completed: row.missions_completed,
     total_missions: row.total_missions,
@@ -56,6 +60,7 @@ function toMissionProgress(row: MissionProgressRow): MissionProgress {
   return {
     mission_id: row.mission_id,
     mission_slug: row.mission_slug,
+    mission_title: row.mission_title,
     level_id: row.level_id,
     completed: row.completed,
     shells_earned: row.shells_earned,
@@ -84,6 +89,7 @@ export const service = {
 
     return {
       trail_id: trail.id,
+      trail_title: trail.title,
       missions_completed: missionsCompleted,
       total_missions: totalMissions,
       percent: percentOf(missionsCompleted, totalMissions),
