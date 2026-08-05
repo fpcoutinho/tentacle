@@ -175,6 +175,6 @@ A API ficará disponível em `http://localhost:3000`. O healthcheck está em `/h
 | `npm run lint`        | Roda o Biome para checar problemas de código.                             |
 | `npm run check`       | Roda `typecheck` + `lint` simultaneamente.                                |
 | `npm run check:fix`   | Roda o Biome aplicando correções automáticas de formatação e imports.     |
-| `npm run ci`          | Comando otimizado para rodar em pipelines de CI (verificações estritas).  |
+| `npm run typecheck-and-lint` | Comando otimizado para rodar em pipelines de CI (verificações estritas). |
 | `npm run migrate:up`  | Aplica as migrações pendentes no banco de dados.                          |
 | `npm run seed`        | Popula o banco de dados com os dados iniciais (`src/db/seed-data.json`).  |

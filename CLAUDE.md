@@ -110,7 +110,7 @@ npm run check:fix
 npm run build
 npm run typecheck
 npm run lint
-npm run ci
+npm run typecheck-and-lint
 ```
 
 ### Variáveis de Ambiente Esperadas

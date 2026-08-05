@@ -18,7 +18,7 @@
     "format:check": "biome format .",
     "check": "npm run typecheck && biome check .",
     "check:fix": "biome check . --write",
-    "ci": "npm run typecheck && biome ci ."
+    "typecheck-and-lint": "npm run typecheck && biome ci ."
   },
   "repository": {
     "type": "git",
