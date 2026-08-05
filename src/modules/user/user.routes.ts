@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { createUser } from './create-user/create-user.controller.ts'
+import { getMissionProgress } from './get-mission-progress/get-mission-progress.controller.ts'
 import { getTrailProgress } from './get-trail-progress/get-trail-progress.controller.ts'
 import { getUserBalance } from './get-user-balance/get-user-balance.controller.ts'
 import { getUserInventory } from './get-user-inventory/get-user-inventory.controller.ts'
@@ -18,3 +19,4 @@ userRouter.get('/inventory', getUserInventory)
 userRouter.post('/inventory', purchaseShopItem)
 userRouter.patch('/avatar/active', updateActiveAvatarItem)
 userRouter.get('/trails/:trailId/progress', getTrailProgress)
+userRouter.get('/missions/:slug/progress', getMissionProgress)
