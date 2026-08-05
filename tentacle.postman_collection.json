@@ -151,6 +151,24 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get User Trail Progress",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/user/trails/1/progress",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "user", "trails", "1", "progress"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -166,6 +184,19 @@
               "raw": "{{baseUrl}}/api/v1/trails",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "trails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trail Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/trails/detail/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "trails", "detail", "1"]
             }
           },
           "response": []
