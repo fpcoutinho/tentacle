@@ -1,0 +1,62 @@
+name: release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck-and-lint
+      - run: npm run test
+
+  # Schema antes do codigo. Pulado automaticamente se nao houver
+  # migracao pendente (ver _migrate.yml).
+  migrate:
+    needs: verify
+    uses: ./.github/workflows/_migrate.yml
+    with:
+      ref: ${{ github.event.release.tag_name || github.ref }}
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  deploy:
+    needs: migrate
+    # Sem isto, uma migracao pulada pularia o deploy junto.
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Pull Vercel environment
+        run: npx vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: npx vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: npx vercel@latest deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

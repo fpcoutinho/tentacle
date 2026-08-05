@@ -1,0 +1,35 @@
+# Segredos - nunca devem subir no bundle da function
+.env
+.env.*
+!.env.example
+firebase-service-account.json
+
+# Dependencias e build local (a Vercel reinstala/recompila)
+node_modules
+dist
+.vercel
+
+# Scripts descartaveis
+plan
+
+# Testes e config de teste (nao rodam em producao)
+**/*.test.ts
+vitest.config.ts
+
+# Docs e artefatos de documentacao
+docs
+README.md
+CLAUDE.md
+tentacle.postman_collection.json
+
+# Infra de container - irrelevante em serverless
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Tooling de repositorio
+.git
+.github
+.vscode
+.claude
+biome.json
