@@ -59,7 +59,7 @@ O modelo abaixo resume as entidades principais do backend e como elas se relacio
 
 ```mermaid
 flowchart LR
-	FA[Firebase Auth<br/>futuro provedor de identidade]
+	FA[Firebase Auth<br/> provedor de identidade]
 
 	U[Users<br/>id<br/>name<br/>gender<br/>email<br/>birth_date]
 
