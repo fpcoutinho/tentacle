@@ -165,6 +165,30 @@ npm run dev
 
 A API ficará disponível em `http://localhost:3000`. O healthcheck está em `/health` e as rotas da API sob `/api/v1`.
 
+## Testes
+
+Testes unitários com [Vitest](https://vitest.dev/). Convenção: o teste fica ao lado do arquivo testado, com o mesmo nome + `.test.ts` (ex: `get-trail-detail.service.ts` → `get-trail-detail.service.test.ts`).
+
+```bash
+npm run test        # roda a suíte uma vez
+npm run test:watch  # modo watch
+```
+
+Prioridade de cobertura: `service.ts` (regra de negócio) e `src/shared/*` (utilitários puros e críticos — `APIError`, `errorHandlerMiddleware`, predicados de erro do pg, middlewares de auth). Módulos que tocam `db/client.ts` ou `config/firebase.ts` (direto ou transitivamente, via repository) são mockados com `vi.mock`/`vi.hoisted`, para o teste não depender de `DATABASE_URL` ou credenciais Firebase reais. O CI ([test.yml](.github/workflows/test.yml)) roda `npm run test` em todo push/PR para `main`.
+
+> Regra do projeto ([CLAUDE.md](CLAUDE.md), item 9): teste nunca guia o código de produção. Se um teste falha, o padrão é corrigir o teste — alterar um arquivo de produção só para fazer um teste passar exige identificar um bug genuíno e avisar explicitamente antes.
+
+## Documentação da API
+
+A API é documentada via [Scalar](https://scalar.com/) a partir da collection do Postman ([tentacle.postman_collection.json](tentacle.postman_collection.json)), convertida para OpenAPI com `postman-to-openapi`.
+
+```bash
+npm run docs        # gera os docs e abre localmente (live-server)
+npm run docs:build  # só gera docs/temp/ (openapi.yaml + index.html)
+```
+
+Publicada automaticamente no GitHub Pages a cada push em `main` que altere a collection ([deploy-docs.yml](.github/workflows/deploy-docs.yml)).
+
 ## Comandos úteis
 
 | Comando               | Descrição                                                                 |
@@ -176,5 +200,9 @@ A API ficará disponível em `http://localhost:3000`. O healthcheck está em `/h
 | `npm run check`       | Roda `typecheck` + `lint` simultaneamente.                                |
 | `npm run check:fix`   | Roda o Biome aplicando correções automáticas de formatação e imports.     |
 | `npm run typecheck-and-lint` | Comando otimizado para rodar em pipelines de CI (verificações estritas). |
+| `npm run test`        | Roda a suíte de testes unitários (Vitest).                                |
+| `npm run test:watch`  | Roda os testes em modo watch.                                             |
 | `npm run migrate:up`  | Aplica as migrações pendentes no banco de dados.                          |
 | `npm run seed`        | Popula o banco de dados com os dados iniciais (`src/db/seed-data.json`).  |
+| `npm run docs`        | Gera a documentação da API e abre localmente.                             |
+| `npm run docs:build`  | Gera a documentação da API em `docs/temp/`.                               |
