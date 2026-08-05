@@ -131,6 +131,13 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 - **Erros inesperados:** Viram 500 genérico, com stack no log e mensagem neutra para o cliente (nunca vaze detalhes internos).
 - **Códigos padronizados:** `validation_error`, `unauthorized`, `forbidden`, `not_found`, `conflict`, `internal_error`.
 
+## Idempotência
+
+- Hoje só `create-mission-submission` exige `Idempotency-Key` (header opcional, dedup por `(user_id, idempotency_key)` em `user_submissions`). Não é convenção aplicada a todo endpoint de criação — é caso a caso, pelo critério abaixo.
+- **Motivo:** `user_submissions` é append-only e reenviar uma resposta errada é comportamento válido do sistema. Sem a key, um retry de rede grava uma tentativa fantasma e incrementa `attempt_number`, degradando silenciosamente a recompensa da tentativa seguinte na curva de conchas (ex: 8 → 4) sem lançar nenhum erro.
+- **Regra para novos endpoints:** exigir `Idempotency-Key` sempre que um retry puder avançar um contador ou inserir linha numa tabela append-only sem constraint de unicidade que bloqueie o duplicado. No schema atual, isso vale principalmente para escritas diretas em `shell_ledger` que não passem por uma validação de estado final já protegida por `UNIQUE` (ex: `user_inventory` bloqueando recompra do mesmo item, `user_mission_completions` com `ON CONFLICT DO UPDATE`).
+- **Não precisa** quando `UNIQUE`/`ON CONFLICT` já garante que reenviar o mesmo request produz o mesmo resultado — é o caso de `purchase-shop-item`, `upsert-mission-bookmark` e `create-mission-completion`.
+
 ## Regras Importantes para Alterações (Diretrizes para IA)
 
 1. **Não sobrescreva arquivos compartilhados.** Ao adicionar endpoints a um módulo existente, faça *append* no `<modulo>.routes.ts` existente. Não recrie o arquivo.
