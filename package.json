@@ -21,7 +21,9 @@
     "format:check": "biome format .",
     "check": "npm run typecheck && biome check .",
     "check:fix": "biome check . --write",
-    "typecheck-and-lint": "npm run typecheck && biome ci ."
+    "typecheck-and-lint": "npm run typecheck && biome ci .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
@@ -57,7 +59,8 @@
     "postman-to-openapi": "^3.0.1",
     "shx": "^0.4.0",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.7"
   },
   "allowScripts": {
     "esbuild@0.28.1": true
