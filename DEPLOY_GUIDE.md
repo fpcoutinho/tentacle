@@ -108,8 +108,9 @@ O `tentacle` usa o `firebase-admin` para validar o token JWT enviado pelo fronte
 > **Importante sobre o `vercel.json`:**
 > Este repositório tem `"git": { "deploymentEnabled": false }` no arquivo `vercel.json`. Isso significa que a Vercel **não** faz deploy automático a cada `git push` — quem controla o deploy é o **GitHub Actions** (configurado no Passo 5).
 
-1. Crie uma conta em [vercel.com](https://vercel.com/) (pode logar com o seu GitHub).
-2. No terminal, na raiz do projeto `tentacle`, faça login e vincule o projeto à sua conta Vercel:
+1. **Mesma conta e domínio do Abstractio (recomendado):** se o `Abstractio` já está na Vercel com o domínio `abstractio.com.br`, você pode criar o projeto do `tentacle` **na mesma conta da Vercel** e usar o subdomínio `api.abstractio.com.br` para a API (sem precisar alterar código ou criar proxy no frontend). Depois de criar o projeto nos passos abaixo, basta ir em **Settings → Domains** do `tentacle` na Vercel, adicionar `api.abstractio.com.br` e criar o registro DNS (`CNAME`) conforme a Vercel instruir (o healthcheck ficará em `https://api.abstractio.com.br/health`).
+2. Se ainda não tiver conta, crie uma em [vercel.com](https://vercel.com/) (pode logar com o seu GitHub); se já tiver, use a mesma conta.
+3. No terminal, na raiz do projeto `tentacle`, faça login e vincule o projeto à sua conta Vercel:
 
 ```bash
 npx vercel login
@@ -119,7 +120,7 @@ npx vercel link
 - Responda às perguntas criando um novo projeto na Vercel (ex.: `tentacle`).
 - Isso criará uma pasta local `.vercel/project.json` (ignorada pelo git) contendo `orgId` e `projectId`. **Guarde esses dois valores**, você vai precisar deles no Passo 5.
 
-3. No painel da Vercel, acesse **Seu Projeto → Settings → Environment Variables** e cadastre as variáveis abaixo para o ambiente **Production**:
+4. No painel da Vercel, acesse **Seu Projeto → Settings → Environment Variables** e cadastre as variáveis abaixo para o ambiente **Production**:
 
 | Variável | Valor | Observação |
 | --- | --- | --- |
@@ -132,15 +133,9 @@ npx vercel link
 | `FIREBASE_PRIVATE_KEY` | `-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n` | Cole o valor do `private_key` do JSON **sem aspas ao redor** (na UI da Vercel, aspas entram literalmente na string) |
 | `CORS_ORIGIN` | `https://abstractio.com.br` | URL de produção do frontend (se usar `www` ou outra origem, separe por vírgula: `https://abstractio.com.br,https://www.abstractio.com.br`) |
 
-4. Ainda na Vercel, gere um Token de acesso para o GitHub Actions:
+5. Ainda na Vercel, gere um Token de acesso para o GitHub Actions:
    - Clique no seu avatar → **Account Settings → Tokens** → **Create** (ex.: nome `github-actions-tentacle`).
    - Copie e guarde esse token (`VERCEL_TOKEN`).
-
-5. *(Recomendado se já usa domínio próprio no Abstractio)* **Configurar subdomínio da API (`api.abstractio.com.br`):**
-   - Você pode manter os dois projetos (`abstractio` e `tentacle`) **na mesma conta da Vercel**.
-   - No projeto do `tentacle` na Vercel, vá em **Settings → Domains** e adicione `api.abstractio.com.br`.
-   - No painel do seu provedor de domínio (onde está registrado `abstractio.com.br`), crie o registro DNS (`CNAME`) conforme a Vercel instruir na tela.
-   - Assim a API fica acessível em `https://api.abstractio.com.br` (healthcheck em `https://api.abstractio.com.br/health`) sem precisar alterar nada no código ou criar proxy no frontend.
 
 ---
 
