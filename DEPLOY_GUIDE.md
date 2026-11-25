@@ -78,6 +78,8 @@ Ao final do `npm run seed`, você deve ver a contagem das tabelas populadas (`tr
 
 > ⚠️ **Atenção:** `npm run seed` executa `TRUNCATE ... RESTART IDENTITY CASCADE` nessas tabelas. Só rode o seed novamente se quiser resetar o conteúdo base — **não rode** em um banco de produção que já tenha dados de usuários (`user_submissions`, `user_inventory`, etc.).
 
+> 🔒 **Limpe o `.env` após o seed:** Assim que `migrate:up` e `seed` terminarem, **apague o `.env`** (ou volte o `DATABASE_URL` para `localhost`) para evitar rodar `npm run seed` ou `npm run migrate:down` por acidente contra o banco de produção no futuro.
+
 ---
 
 ## Passo 3: Configurar o Firebase (Autenticação)
@@ -126,7 +128,7 @@ npx vercel link
 | --- | --- | --- |
 | `NODE_ENV` | `production` | Ambiente de execução |
 | `RUNTIME_MODE` | `serverless` | **Obrigatório na Vercel** — limita o pool do Postgres (`max: 1`) para serverless |
-| `DATABASE_URL` | `postgresql://...` | Sua connection string do NeonDB |
+| `DATABASE_URL` | `postgresql://...` | Connection string **Pooled** (`-pooler`) do NeonDB |
 | `FIREBASE_AUTH_ENABLED` | `true` | Ativa validação real de tokens Firebase |
 | `FIREBASE_PROJECT_ID` | `seu-project-id` | Do JSON da conta de serviço |
 | `FIREBASE_CLIENT_EMAIL` | `firebase-adminsdk-...@...iam.gserviceaccount.com` | Do JSON da conta de serviço |
@@ -154,7 +156,7 @@ Para que esses workflows funcionem no seu repositório:
 
 | Secret | Onde encontrar |
 | --- | --- |
-| `DATABASE_URL` | Connection string do NeonDB (Passo 2) |
+| `DATABASE_URL` | Connection string **Direct** (sem `-pooler`) do NeonDB (Passo 2) |
 | `VERCEL_TOKEN` | Token criado na Vercel (Passo 4) |
 | `VERCEL_ORG_ID` | Campo `orgId` dentro do arquivo `.vercel/project.json` gerado pelo `npx vercel link` |
 | `VERCEL_PROJECT_ID` | Campo `projectId` dentro do arquivo `.vercel/project.json` |
@@ -185,7 +187,7 @@ Resposta esperada:
 
 ## Passo 7: Conectar o frontend (Abstractio)
 
-Para que o **Abstractio** converse com o seu novo backend:
+Para que o **Abstractio** ([repositório](https://github.com/Gpcoutinho/Abstractio)) converse com o seu novo backend:
 
 1. No painel de variáveis de ambiente do **Abstractio** (conforme o `.env.example` dele), configure:
    - `VITE_API_BASE_URL=https://api.abstractio.com.br` (ou a URL `*.vercel.app` do `tentacle`, sempre apenas a URL base, **sem** `/api/v1` e sem barra no final)
