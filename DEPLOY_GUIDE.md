@@ -130,11 +130,17 @@ npx vercel link
 | `FIREBASE_PROJECT_ID` | `seu-project-id` | Do JSON da conta de serviço |
 | `FIREBASE_CLIENT_EMAIL` | `firebase-adminsdk-...@...iam.gserviceaccount.com` | Do JSON da conta de serviço |
 | `FIREBASE_PRIVATE_KEY` | `-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n` | Cole o valor do `private_key` do JSON **sem aspas ao redor** (na UI da Vercel, aspas entram literalmente na string) |
-| `CORS_ORIGIN` | `https://seu-abstractio.vercel.app` | URL de produção do frontend (se houver mais de uma, separe por vírgula) |
+| `CORS_ORIGIN` | `https://abstractio.com.br` | URL de produção do frontend (se usar `www` ou outra origem, separe por vírgula: `https://abstractio.com.br,https://www.abstractio.com.br`) |
 
 4. Ainda na Vercel, gere um Token de acesso para o GitHub Actions:
    - Clique no seu avatar → **Account Settings → Tokens** → **Create** (ex.: nome `github-actions-tentacle`).
    - Copie e guarde esse token (`VERCEL_TOKEN`).
+
+5. *(Recomendado se já usa domínio próprio no Abstractio)* **Configurar subdomínio da API (`api.abstractio.com.br`):**
+   - Você pode manter os dois projetos (`abstractio` e `tentacle`) **na mesma conta da Vercel**.
+   - No projeto do `tentacle` na Vercel, vá em **Settings → Domains** e adicione `api.abstractio.com.br`.
+   - No painel do seu provedor de domínio (onde está registrado `abstractio.com.br`), crie o registro DNS (`CNAME`) conforme a Vercel instruir na tela.
+   - Assim a API fica acessível em `https://api.abstractio.com.br` (healthcheck em `https://api.abstractio.com.br/health`) sem precisar alterar nada no código ou criar proxy no frontend.
 
 ---
 
@@ -187,7 +193,7 @@ Resposta esperada:
 Para que o **Abstractio** converse com o seu novo backend:
 
 1. No painel de variáveis de ambiente do **Abstractio** (conforme o `.env.example` dele), configure:
-   - `VITE_API_BASE_URL=https://tentacle-seu-usuario.vercel.app` (apenas a URL base, **sem** `/api/v1` e sem barra no final)
+   - `VITE_API_BASE_URL=https://api.abstractio.com.br` (ou a URL `*.vercel.app` do `tentacle`, sempre apenas a URL base, **sem** `/api/v1` e sem barra no final)
    - `VITE_FIREBASE_API_KEY`
    - `VITE_FIREBASE_AUTH_DOMAIN`
    - `VITE_FIREBASE_PROJECT_ID`
